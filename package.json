@@ -6,11 +6,19 @@
       "web"
     ]
   },
+  "scripts": {
+    "dev": "yarn rw dev",
+    "upgrade": "yarn rw upgrade",
+    "migrate-dev": "yarn rw prisma migrate dev",
+    "prisma": "yarn rw prisma studio",
+    "page": "yarn rw g page",
+    "types": "yarn rw g types"
+  },
   "devDependencies": {
     "@redwoodjs/core": "4.4.3"
   },
   "eslintConfig": {
-    "extends": "@redwoodjs/eslint-config",
+    "extends": ".eslintrc.js",
     "root": true
   },
   "engines": {
