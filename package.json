@@ -6,11 +6,16 @@
       "web"
     ]
   },
+  "scripts": {
+    "dev": "yarn rw dev",
+    "upgrade": "yarn rw upgrade",
+    "page": "yarn rw g page"
+  },
   "devDependencies": {
     "@redwoodjs/core": "4.4.3"
   },
   "eslintConfig": {
-    "extends": "@redwoodjs/eslint-config",
+    "extends": ".eslintrc.js",
     "root": true
   },
   "engines": {
