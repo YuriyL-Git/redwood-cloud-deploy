@@ -1,4 +1,4 @@
-#!/bin/bash -ve
+#!/bin/ash
 
 # NOTE: Requires binaries. Install with:
 # yarn global add @redwoodjs/api-server @redwoodjs/internal prisma

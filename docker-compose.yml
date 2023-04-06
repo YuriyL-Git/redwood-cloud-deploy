@@ -1,6 +1,7 @@
 version: '3'
 services:
   database:
+    restart: on-failure
     image: 'postgres:latest'
     # NOTE: avoid collision with local postgres port
     ports:
@@ -8,8 +9,9 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ekmnhfabjktn16
-      POSTGRES_DB: default_database
+      POSTGRES_DB: redwood-blog
   api:
+    restart: on-failure
     build:
         context: ./
         dockerfile: api/Dockerfile
@@ -30,6 +32,7 @@ services:
       # Learn more: https://stackoverflow.com/questions/31249112/allow-docker-container-to-connect-to-a-local-host-postgres-database
       DATABASE_URL: postgres://postgres:ekmnhfabjktn16@database:5432/redwood-blog?connection_limit=1
   web:
+    restart: on-failure
     build:
         context: ./
         dockerfile: web/Dockerfile
