@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "yarn rw dev",
+    "build": "yarn rw build",
     "upgrade": "yarn rw upgrade",
     "migrate-dev": "yarn rw prisma migrate dev",
     "prisma": "yarn rw prisma studio",
