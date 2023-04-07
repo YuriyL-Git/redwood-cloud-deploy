@@ -10,14 +10,15 @@ COPY graphql.config.js .
 COPY package.json .
 COPY redwood.toml .
 COPY yarn.lock .
-
 COPY .env .
+COPY docker-prebuild.js .
 
 RUN apk add --update --no-cache openssl1.1-compat
 RUN apk add --no-cache --upgrade bash
 
 RUN yarn install --immutable
 RUN yarn add react react-dom --ignore-workspace-root-check
+RUN node docker-prebuild.js
 RUN yarn rw build api
 RUN yarn global add @redwoodjs/api-server @redwoodjs/internal lerna prisma
 

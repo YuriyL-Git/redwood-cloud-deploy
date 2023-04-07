@@ -10,8 +10,11 @@ COPY graphql.config.js .
 COPY package.json .
 COPY redwood.toml .
 COPY yarn.lock .
+COPY docker-prebuild.js .
+COPY .env .
 
 RUN yarn install --immutable
+RUN node docker-prebuild.js
 RUN yarn rw build web
 RUN rm -rf ./web/src
 
