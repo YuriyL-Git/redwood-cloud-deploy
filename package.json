@@ -7,7 +7,7 @@
     ]
   },
   "scripts": {
-    "dev": "yarn rw dev",
+    "start": "DB_HOST_NAME=localhost yarn rw dev",
     "build": "yarn rw build",
     "upgrade": "yarn rw upgrade",
     "migrate-dev": "yarn rw prisma migrate dev",

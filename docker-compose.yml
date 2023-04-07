@@ -1,22 +1,24 @@
 version: '3'
 services:
   database:
+    restart: unless-stopped
     image: 'postgres:latest'
-    # NOTE: avoid collision with local postgres port
+    # to avoid collision with local postgres port
     ports:
-      - 6543:5432
+      - ${POSTGRES_REDIRECT_PORT}:${POSTGRES_PORT}
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ekmnhfabjktn16
-      POSTGRES_DB: default_database
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
   api:
+    restart: unless-stopped
     build:
         context: ./
         dockerfile: api/Dockerfile
     depends_on:
       - database
     ports:
-      - '8911:8911'
+      - '${API_PORT}:${API_PORT}'
     logging:
       driver: 'json-file'
       options:
@@ -25,18 +27,18 @@ services:
     env_file:
       - .env
     environment:
-      REDWOOD_API_URL: 'http://0.0.0.0:8911'
-      # To connect to a local database, run ifconfig docker0 and update the host for the database.
-      # Learn more: https://stackoverflow.com/questions/31249112/allow-docker-container-to-connect-to-a-local-host-postgres-database
-      DATABASE_URL: postgres://postgres:ekmnhfabjktn16@database:5432/redwood-blog?connection_limit=1
+      API_PORT: ${API_PORT}
+      REDWOOD_API_URL: ${API_URL}
+      DATABASE_URL: ${DATABASE_URL}
   web:
+    restart: unless-stopped
     build:
         context: ./
         dockerfile: web/Dockerfile
     depends_on:
       - api
     ports:
-      - '8910:8910'
+      - '${APP_PORT}:${APP_PORT}'
     logging:
       driver: 'json-file'
       options:
@@ -44,3 +46,14 @@ services:
         max-file: '10'
     env_file:
       - .env
+    environment:
+        APP_PORT: ${APP_PORT}
+  test:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      APP_PORT: ${APP_PORT}
+    tty: true
