@@ -3,7 +3,7 @@ services:
   database:
     restart: unless-stopped
     image: 'postgres:latest'
-    # NOTE: avoid collision with local postgres port
+    # to avoid collision with local postgres port
     ports:
       - ${POSTGRES_REDIRECT_PORT}:${POSTGRES_PORT}
     environment:
@@ -27,6 +27,7 @@ services:
     env_file:
       - .env
     environment:
+      API_PORT: ${API_PORT}
       REDWOOD_API_URL: ${API_URL}
       DATABASE_URL: ${DATABASE_URL}
   web:
@@ -45,3 +46,14 @@ services:
         max-file: '10'
     env_file:
       - .env
+    environment:
+        APP_PORT: ${APP_PORT}
+  test:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      APP_PORT: ${APP_PORT}
+    tty: true

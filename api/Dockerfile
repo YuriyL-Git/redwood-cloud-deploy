@@ -1,5 +1,7 @@
 FROM node:18-alpine
 
+ENV API_PORT ${API_PORT}
+
 WORKDIR /app
 
 COPY api api
@@ -26,12 +28,5 @@ WORKDIR /app
 COPY serve-api.sh .
 
 ENTRYPOINT ["./serve-api.sh"]
-EXPOSE 8911
-
-
-
-
-#WORKDIR /app/api
-#ENTRYPOINT ["yarn", "rw", "serve", "api", "--port", "8911", "--rootPath", "/api" ]
-
+EXPOSE ${API_PORT}
 

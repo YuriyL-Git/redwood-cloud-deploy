@@ -1,5 +1,7 @@
 FROM node:18-alpine as builder
 
+ENV APP_PORT ${APP_PORT}
+
 WORKDIR /app
 
 COPY web web
@@ -20,4 +22,4 @@ COPY web/nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN ls -lA /usr/share/nginx/html
 
-EXPOSE 8910
+EXPOSE ${APP_PORT}
