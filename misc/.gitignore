@@ -1,0 +1,5 @@
+#Gitignore for deployment
+/*
+!web/dist
+!api/dist
+
