@@ -1,6 +1,7 @@
 FROM node:18-alpine as builder
 
 ENV APP_PORT ${APP_PORT}
+ENV NODE_OPTIONS=--max_old_space_size=2048
 
 WORKDIR /app
 

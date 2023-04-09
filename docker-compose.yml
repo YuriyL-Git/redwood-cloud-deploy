@@ -48,12 +48,3 @@ services:
       - .env
     environment:
         APP_PORT: ${APP_PORT}
-  test:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    env_file:
-      - .env
-    environment:
-      APP_PORT: ${APP_PORT}
-    tty: true
