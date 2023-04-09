@@ -28,6 +28,7 @@ RUN rm -rf ./api/src
 
 WORKDIR /app
 COPY serve-api.sh .
+RUN chmod +x serve-api.sh
 
 ENTRYPOINT ["./serve-api.sh"]
 EXPOSE ${API_PORT}
