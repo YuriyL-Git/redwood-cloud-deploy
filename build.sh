@@ -11,8 +11,9 @@ yarn rw build api
 yarn rw build web
 
 git checkout -b deploy
-git add api/dist
-git add web/dist
+mv misc/.gitignore .gitignore
+
+git add .
 git commit -m "Deploy ${current_date_time}"
 git push origin deploy --force
 git reset --hard
