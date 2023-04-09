@@ -6,7 +6,6 @@ git reset --hard
 git checkout -b master
 git pull
 yarn install --immutable
-yarn add react react-dom --ignore-workspace-root-check
 node docker-prebuild.js
 yarn rw build api
 yarn rw build web
