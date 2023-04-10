@@ -17,11 +17,12 @@ COPY docker-prebuild.js .
 RUN apk add --update --no-cache openssl1.1-compat
 RUN apk add --no-cache --upgrade bash
 
-RUN yarn install --immutable
-RUN yarn add react react-dom --ignore-workspace-root-check
+#RUN yarn install --immutable
+#RUN yarn add react react-dom --ignore-workspace-root-check
+
+#RUN yarn rw build api
 RUN node docker-prebuild.js
-RUN yarn rw build api
-RUN yarn global add @redwoodjs/api-server @redwoodjs/internal lerna prisma
+RUN yarn global add @redwoodjs/api-server @redwoodjs/internal @redwoodjs/graphql-server prisma
 
 
 RUN rm -rf ./api/src
