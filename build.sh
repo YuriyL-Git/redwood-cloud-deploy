@@ -15,7 +15,6 @@ yarn rw build api
 yarn rw build web
 
 git checkout deploy
-mv misc/.gitignore .gitignore
 
 git add .
 git commit -m "Deploy ${current_date_time}"
