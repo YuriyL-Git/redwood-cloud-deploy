@@ -1,5 +1,7 @@
 #!/bin/bash
+source .env
 current_date_time=$(date)
+
 
 git config --global --add safe.directory "${PWD}"
 git reset --hard
@@ -17,7 +19,7 @@ mv misc/.gitignore .gitignore
 
 git add .
 git commit -m "Deploy ${current_date_time}"
-git push origin deploy --force
-git reset --hard
+echo "https://${GIT_TOKEN}@github.com/${GITHUB_USERNAME}/${GITHUB_REPO}.git"
 
+git push "https://${GIT_TOKEN}@github.com/${GITHUB_USERNAME}/${GITHUB_REPO}.git" --force
 
