@@ -14,6 +14,7 @@ node docker-prebuild.js
 yarn rw build api
 yarn rw build web
 
+git checkout HEAD -- redwood.toml
 git checkout deploy
 
 git add .
