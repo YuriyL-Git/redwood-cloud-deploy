@@ -19,9 +19,10 @@ RUN apk add --no-cache --upgrade bash
 
 #RUN yarn install --immutable
 #RUN yarn add react react-dom --ignore-workspace-root-check
-#RUN node docker-prebuild.js
+
 #RUN yarn rw build api
-RUN yarn global add @redwoodjs/api-server @redwoodjs/internal prisma
+RUN node docker-prebuild.js
+RUN yarn global add @redwoodjs/api-server @redwoodjs/internal @redwoodjs/graphql-server prisma
 
 
 RUN rm -rf ./api/src
