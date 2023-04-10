@@ -14,9 +14,9 @@ COPY yarn.lock .
 COPY docker-prebuild.js .
 COPY .env .
 
-RUN yarn install --immutable
+#RUN yarn install --immutable
 RUN node docker-prebuild.js
-RUN yarn rw build web
+#RUN yarn rw build web
 RUN rm -rf ./web/src
 
 FROM nginx as runner
