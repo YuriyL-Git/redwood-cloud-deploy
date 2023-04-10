@@ -21,6 +21,7 @@ RUN apk add --no-cache --upgrade bash
 #RUN yarn add react react-dom --ignore-workspace-root-check
 
 #RUN yarn rw build api
+export PATH="$(yarn global bin):$PATH"
 RUN node docker-prebuild.js
 RUN yarn global add @redwoodjs/api-server @redwoodjs/internal @redwoodjs/graphql-server prisma
 
