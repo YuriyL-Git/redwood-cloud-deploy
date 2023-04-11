@@ -26,7 +26,11 @@ RUN apk add --no-cache --upgrade bash
 RUN node docker-prebuild.js
 RUN yarn global add ignite-cli
 RUN yarn install --immutable
+<<<<<<< Updated upstream
 RUN yarn global add @redwoodjs/api-server @redwoodjs/internal prisma
+=======
+RUN yarn global add @redwoodjs/api-server @redwoodjs/internal prisma @prisma/client
+>>>>>>> Stashed changes
 
 
 RUN rm -rf ./api/src
