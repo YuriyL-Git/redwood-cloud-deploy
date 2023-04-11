@@ -23,7 +23,7 @@ RUN apk add --no-cache --upgrade bash
 #RUN yarn rw build api
 export PATH="$(yarn global bin):$PATH"
 RUN node docker-prebuild.js
-RUN yarn global add @redwoodjs/api-server @redwoodjs/internal @redwoodjs/graphql-server prisma
+RUN yarn global add @redwoodjs/api-server @redwoodjs/internal lerna prisma
 
 
 RUN rm -rf ./api/src
