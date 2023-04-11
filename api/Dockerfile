@@ -21,11 +21,12 @@ RUN apk add --no-cache --upgrade bash
 #RUN yarn add react react-dom --ignore-workspace-root-check
 
 #RUN yarn rw build api
-RUN export PATH="$(yarn global bin):$PATH"
-RUN yarn config set prefix ~/.local
+#RUN export PATH="$(yarn global bin):$PATH"
+#RUN yarn config set prefix ~/.local
 RUN node docker-prebuild.js
 RUN yarn global add ignite-cli
-RUN yarn global add @redwoodjs/api-server @redwoodjs/internal @redwoodjs/graphql-server prisma
+RUN yarn install --immutable
+RUN yarn global add @redwoodjs/api-server @redwoodjs/internal prisma
 
 
 RUN rm -rf ./api/src
