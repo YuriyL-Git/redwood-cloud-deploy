@@ -11,7 +11,7 @@
     "build": "yarn rw build",
     "upgrade": "yarn rw upgrade",
     "migrate-dev": "yarn rw prisma migrate dev",
-    "prisma": "yarn rw prisma studio",
+    "prisma-studio": "yarn rw prisma studio",
     "page": "yarn rw g page",
     "types": "yarn rw g types"
   },
