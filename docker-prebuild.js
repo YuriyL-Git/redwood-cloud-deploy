@@ -13,8 +13,8 @@ setTimeout(async () => {
 
   clearPackageDependencies('package.json');
   clearPackageDependencies('api/package.json', [
-    '@redwoodjs/api',
-    '@redwoodjs/graphql-server',
+    { package: '@redwoodjs/api', version: '4.4.3' },
+    { package: '@redwoodjs/graphql-server', version: '4.4.3' },
   ]);
 }, 0);
 
@@ -66,8 +66,10 @@ async function clearPackageDependencies(pathToFile, dependencyKeys = []) {
   const packageObject = JSON.parse(packageContent);
 
   let dependencies = {};
-  dependencyKeys.forEach((key) => {
-    dependencies[key] = packageObject.dependencies[key];
+  dependencyKeys.forEach((keyObj) => {
+    const key = keyObj.package;
+    const defaultVersion = keyObj.version;
+    dependencies[key] = packageObject.dependencies[key] || defaultVersion;
   });
 
   packageObject.dependencies = dependencies;
