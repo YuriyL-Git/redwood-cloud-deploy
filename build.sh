@@ -14,6 +14,8 @@ node docker-prebuild.js
 yarn rw build api
 yarn rw build web
 
+mkdir -p ./.prisma/client
+cp -r ./node_modules/.prisma/client ./.prisma/client
 git checkout HEAD -- redwood.toml
 git checkout deploy
 
