@@ -2,6 +2,7 @@
 const fs = require('fs').promises;
 
 const redwoodTomlFile = 'redwood.toml';
+
 const envFile = '.env';
 const encoding = 'utf8';
 
@@ -9,6 +10,12 @@ setTimeout(async () => {
   const envObject = await getEnvVariables();
   const redwoodTomlContent = await fs.readFile(redwoodTomlFile, encoding);
   updateRedwoodToml(redwoodTomlContent, envObject);
+
+  clearPackageDependencies('package.json');
+  clearPackageDependencies('api/package.json', [
+    '@redwoodjs/api',
+    '@redwoodjs/graphql-server',
+  ]);
 }, 0);
 
 async function getEnvVariables() {
@@ -52,4 +59,19 @@ function updateRedwoodToml(fileContent, envObject) {
     result = result.replace(new RegExp(`\\$\{${key}\}`), envObject[key]);
   }
   fs.writeFile(redwoodTomlFile, result, encoding);
+}
+
+async function clearPackageDependencies(pathToFile, dependencyKeys = []) {
+  const packageContent = await fs.readFile(pathToFile, encoding);
+  const packageObject = JSON.parse(packageContent);
+
+  let dependencies = {};
+  dependencyKeys.forEach((key) => {
+    dependencies[key] = packageObject.dependencies[key];
+  });
+
+  packageObject.dependencies = dependencies;
+  packageObject.devDependencies = {};
+  const result = JSON.stringify(packageObject, null, 2);
+  fs.writeFile(pathToFile, result, encoding);
 }
