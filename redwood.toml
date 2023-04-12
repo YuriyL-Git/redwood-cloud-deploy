@@ -6,13 +6,13 @@
 # https://redwoodjs.com/docs/app-configuration-redwood-toml
 
 [web]
-  title = "Redwood App"
-  port = "8910"
-  apiUrl = "http://34.125.143.209:8911"
-  includeEnvironmentVariables = []
+title = "Redwood App"
+port = "${APP_PORT}"
+apiUrl = "${API_URL}"
+includeEnvironmentVariables = []
 [api]
-  port = "8911"
+port = "${API_PORT}"
 [browser]
-  open = true
+open = true
 [notifications]
-  versionUpdates = ["latest"]
+versionUpdates = ["latest"]

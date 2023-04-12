@@ -17,17 +17,13 @@ COPY docker-prebuild.js .
 RUN apk add --update --no-cache openssl1.1-compat
 RUN apk add --no-cache --upgrade bash
 
-#RUN yarn install --immutable
-#RUN yarn add react react-dom --ignore-workspace-root-check
-
-#RUN yarn rw build api
-#RUN export PATH="$(yarn global bin):$PATH"
-#RUN yarn config set prefix ~/.local
 RUN node docker-prebuild.js
-RUN yarn global add ignite-cli
 RUN yarn install --immutable
 
-RUN yarn global add @redwoodjs/api-server @redwoodjs/internal prisma @prisma/client
+
+
+RUN yarn global add @redwoodjs/api-server @redwoodjs/internal prisma
+COPY .prisma/client ./node_modules/.prisma/client
 
 
 RUN rm -rf ./api/src
@@ -38,4 +34,3 @@ RUN chmod +x serve-api.sh
 
 ENTRYPOINT ["./serve-api.sh"]
 EXPOSE ${API_PORT}
-
