@@ -1,12 +1,17 @@
 #!/bin/bash
 source .env
 current_date_time=$(date)
+deploy_branch=deploy1
 
 git config --global --add safe.directory "${PWD}"
 git reset --hard
 git checkout master
 git fetch --all
 git reset --hard origin/master
+git checkout "${deploy_branch}"
+git reset --hard "origin/${deploy_branch}"
+
+git checkout master
 
 node prebuild.js
 yarn install --immutable
@@ -15,7 +20,7 @@ yarn rw build api
 yarn rw build web
 
 git checkout HEAD -- redwood.toml
-git checkout deploy1
+git checkout "${deploy_branch}"
 
 git add .
 git commit -m "Deploy ${current_date_time}"
