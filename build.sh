@@ -19,8 +19,17 @@ yarn install --immutable
 yarn rw build api
 yarn rw build web
 
+mkdir -p build/{api,web}
+mv api/dist build/api
+mv web/dist build/web
+
+
 git checkout HEAD -- redwood.toml
 git checkout "${deploy_branch}"
+rm -r api/dist
+rm -r web/dist
+mv build/api/dist api
+mv build/web/dist web
 
 node scripts/setup-gitignore.js
 sleep 1
