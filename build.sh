@@ -1,4 +1,6 @@
 #!/bin/bash
+
+#sudo chmod +x build.sh &&  sudo ./build.sh
 source .env
 current_date_time=$(date)
 deploy_branch=deploy3
