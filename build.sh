@@ -1,7 +1,7 @@
 #!/bin/bash
 source .env
 current_date_time=$(date)
-deploy_branch=deploy2
+deploy_branch=deploy3
 
 git config --global --add safe.directory "${PWD}"
 git reset --hard
@@ -23,6 +23,7 @@ git checkout HEAD -- redwood.toml
 git checkout "${deploy_branch}"
 
 node scripts/setup-gitignore.js
+sleep 1
 
 git add .
 git commit -m "Deploy ${current_date_time}"
