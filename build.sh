@@ -8,15 +8,14 @@ git checkout master
 git fetch --all
 git reset --hard origin/master
 
+node prebuild.js
 yarn install --immutable
-node docker-prebuild.js
+
 yarn rw build api
 yarn rw build web
 
 git checkout HEAD -- redwood.toml
-git checkout HEAD -- package.json
-git checkout HEAD -- api/package.json
-git checkout deploy
+git checkout deploy1
 
 git add .
 git commit -m "Deploy ${current_date_time}"

@@ -12,18 +12,15 @@ COPY package.json .
 COPY redwood.toml .
 COPY yarn.lock .
 COPY .env .
-COPY docker-prebuild.js .
+COPY scripts/serve-prepare.js .
 
 RUN apk add --update --no-cache openssl1.1-compat
 RUN apk add --no-cache --upgrade bash
 
-RUN node docker-prebuild.js
+RUN node serve-prepare.js
+
 RUN yarn install --immutable
-
-
-
 RUN yarn global add @redwoodjs/api-server @redwoodjs/internal prisma
-#COPY .prisma/client ./node_modules/.prisma/client
 
 
 RUN rm -rf ./api/src
