@@ -15,7 +15,6 @@ yarn rw build api
 yarn rw build web
 
 mkdir -p ./.prisma/client
-cp -r ./node_modules/.prisma/client ./.prisma
 git checkout HEAD -- redwood.toml
 git checkout deploy
 
