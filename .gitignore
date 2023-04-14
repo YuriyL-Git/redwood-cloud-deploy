@@ -5,7 +5,6 @@
 .redwood
 .prisma/*
 dev.db*
-dist
 dist-babel
 node_modules
 yarn-error.log
