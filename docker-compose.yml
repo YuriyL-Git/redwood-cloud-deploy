@@ -6,6 +6,8 @@ services:
     # to avoid collision with local postgres port
     ports:
       - ${POSTGRES_REDIRECT_PORT}:${POSTGRES_PORT}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -48,3 +50,6 @@ services:
       - .env
     environment:
         APP_PORT: ${APP_PORT}
+
+volumes:
+    pgdata:

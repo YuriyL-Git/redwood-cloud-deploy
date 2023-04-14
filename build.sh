@@ -6,8 +6,12 @@ current_date_time=$(date)
 deploy_branch=deploy3
 
 git reset --hard
-git checkout master
 git fetch --all
+
+git checkout "${deploy_branch}"
+git reset --hard "origin/${deploy_branch}"
+
+git checkout master
 git reset --hard origin/master
 
 node prebuild.js
