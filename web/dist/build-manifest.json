@@ -1,8 +1,8 @@
 {
   "app.css": "/static/css/app.1fc1863d.css",
   "app.js": "/static/js/app.e0a1b1d4.js",
-  "runtime-app.js": "/static/js/runtime-app.8a7bb137.js",
-  "static/js/122.02bc5863.chunk.js": "/static/js/122.02bc5863.chunk.js",
+  "runtime-app.js": "/static/js/runtime-app.0ba8063f.js",
+  "static/js/122.de1ab037.chunk.js": "/static/js/122.de1ab037.chunk.js",
   "static/js/317.9e6f4475.chunk.js": "/static/js/317.9e6f4475.chunk.js",
   "static/js/845.63446de5.chunk.js": "/static/js/845.63446de5.chunk.js",
   "static/js/220.81e2f85c.chunk.js": "/static/js/220.81e2f85c.chunk.js",
@@ -16,5 +16,6 @@
   "static/js/210.0b5fa866.chunk.js": "/static/js/210.0b5fa866.chunk.js",
   "favicon.png": "/favicon.png",
   "index.html": "/index.html",
+  ".well-known/pki-validation/txt": "/.well-known/pki-validation/94C54D8BA41162EF433163220591BF0F.txt",
   "robots.txt": "/robots.txt"
 }
