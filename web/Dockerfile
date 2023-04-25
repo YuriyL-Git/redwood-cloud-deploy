@@ -11,8 +11,8 @@ FROM nginx as runner
 
 COPY --from=builder /app/web/dist /usr/share/nginx/html
 COPY web/nginx.conf /etc/nginx/conf.d/default.conf
-COPY web/redwoodtest.pp.ua_key.txt /ect/ssl/redwoodtest.pp.ua_key.txt
-COPY web/ssl_bundle.txt /ect/ssl/ssl_bundle.txt
+COPY web/redwoodtest.pp.ua.key /ect/ssl/redwoodtest.pp.ua.key
+COPY web/ssl_bundle.crt /ect/ssl/ssl_bundle.crt
 
 RUN ls -lA /usr/share/nginx/html
 
