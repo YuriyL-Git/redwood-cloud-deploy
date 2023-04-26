@@ -53,8 +53,8 @@
           git checkout ${{ inputs.branch-name }} &&
           rm -rf api &&
           rm -rf web &&
-          mv build/api api &&
-          mv build/web web &&
+          mv build/api . &&
+          mv build/web . &&
           rm -rf build &&
           rm -rf api/src &&
           rm -rf web/src
