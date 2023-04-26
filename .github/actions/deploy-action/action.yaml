@@ -8,19 +8,24 @@
     using: "composite"
     steps:
       - name: Create env file
+        shell: bash
         run: |
           echo "${{ secrets.ENV_FILE }}" | base64 --decode > .env
 
       - name: Run prebuild
+        shell: bash
         run: node prebuild.js
 
       - name: Run install
+        shell: bash
         run: yarn install --immutable
 
       - name: Run Build
+        shell: bash
         run: yarn rw build
 
       - name: Copy build files to deploy branch
+        shell: bash
         run: mkdir -p build/{api,web} &&
           mv api/dist build/api &&
           mv web/dist build/web &&
