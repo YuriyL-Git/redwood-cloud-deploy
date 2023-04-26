@@ -10,7 +10,7 @@ const BlogLayout = ({ children }: BlogLayoutProps) => {
   return (
     <>
       <header>
-        <h1>Redwood Blog</h1>
+        <h1>Redwood Blog test new</h1>
         <nav>
           <ul>
             <li>
