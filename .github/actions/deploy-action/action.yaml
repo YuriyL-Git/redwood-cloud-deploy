@@ -1,0 +1,78 @@
+  name: 'Build'
+  description: 'Build branch action'
+  inputs:
+    branch-name:
+      required: true
+      description: 'Branch name to push build files to'
+    env-file:
+      required: true
+      description: 'Env file'
+    gcp-credentials:
+      required: true
+      description: 'Google service account json credentials file'
+    gcp-ssh-private-key:
+      required: true
+      description: 'Google virtual machine ssh private key'
+  runs:
+    using: "composite"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create env file
+        shell: bash
+        run: |
+          echo "${{ inputs.env-file }}" | base64 --decode > .env
+      - name: Read env file
+        shell: bash
+        run: cat .env
+
+      - name: Run prebuild
+        shell: bash
+        run: node prebuild.js
+
+      - name: Run install
+        shell: bash
+        run: yarn install --immutable
+
+      - name: Run Build
+        shell: bash
+        run: yarn rw build
+
+      - name: Copy build files to deploy branch
+        shell: bash
+        run: mkdir -p build/{api,web} &&
+          mv api/dist build/api &&
+          mv web/dist build/web &&
+          git checkout HEAD -- redwood.toml &&
+          git fetch --all &&
+          git checkout ${{ inputs.branch-name }} &&
+          rm -rf api/dist &&
+          rm -rf web/dist &&
+          mv build/api/dist api &&
+          mv build/web/dist web &&
+          rm -rf build
+
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: build
+          skip_dirty_check: true
+          branch: ${{ inputs.branch-name }}
+          push_options: '--force'
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ inputs.gcp-credentials }}'
+      - id: 'compute-ssh'
+        uses: 'google-github-actions/ssh-compute@v0'
+        with:
+          instance_name: 'host-server-2'
+          zone: 'us-west4-b'
+          ssh_private_key: '${{ inputs.gcp-ssh-private-key }}'
+          command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy &&
+                    sudo git fetch --all &&
+                    sudo git reset --hard "origin/deploy3" &&
+                    sudo docker-compose down &&
+                    sudo docker-compose build api &&
+                    sudo docker-compose build web &&
+                    sudo docker-compose up -d'
