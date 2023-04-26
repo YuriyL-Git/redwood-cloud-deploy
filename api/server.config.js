@@ -34,6 +34,7 @@ const config = {
  * You can also register Fastify plugins and additional routes for the API and Web sides
  * in the configureFastify function.
  *
+ *
  * This function has access to the Fastify instance and options, such as the side
  * (web, api, or proxy) that is being configured and other settings like the apiRootPath
  * of the functions endpoint.
