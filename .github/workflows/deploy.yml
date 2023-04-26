@@ -16,6 +16,8 @@ jobs:
           env-file: ${{ secrets.ENV_FILE }}
           gcp-credentials: ${{ secrets.GCP_CREDENTIALS }}
           gcp-ssh-private-key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
+          instance_name: host-server-2
+          zone: us-west4-b
 
 
 

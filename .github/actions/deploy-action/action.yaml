@@ -13,6 +13,12 @@
     gcp-ssh-private-key:
       required: true
       description: 'Google virtual machine ssh private key'
+    instance_name:
+      required: true
+      description: 'Virtual machine instance name'
+    zone:
+      required: true
+      description: 'Virtual machine zone'
   runs:
     using: "composite"
     steps:
@@ -40,16 +46,20 @@
       - name: Copy build files to deploy branch
         shell: bash
         run: mkdir -p build/{api,web} &&
-          mv api/dist build/api &&
-          mv web/dist build/web &&
+          mv api build/api &&
+          mv web build/web &&
           git checkout HEAD -- redwood.toml &&
           git fetch --all &&
           git checkout ${{ inputs.branch-name }} &&
-          rm -rf api/dist &&
-          rm -rf web/dist &&
-          mv build/api/dist api &&
-          mv build/web/dist web &&
-          rm -rf build
+          rm -rf api &&
+          rm -rf web &&
+          mv build/api . &&
+          mv build/web . &&
+          rm -rf build &&
+          rm -rf api/src &&
+          rm -rf web/src
+
+
 
 
       - uses: stefanzweifel/git-auto-commit-action@v4
@@ -66,12 +76,12 @@
       - id: 'compute-ssh'
         uses: 'google-github-actions/ssh-compute@v0'
         with:
-          instance_name: 'host-server-2'
-          zone: 'us-west4-b'
+          instance_name: '${{ inputs.instance_name }}'
+          zone: '${{ inputs.zone }}'
           ssh_private_key: '${{ inputs.gcp-ssh-private-key }}'
           command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy &&
                     sudo git fetch --all &&
-                    sudo git reset --hard "origin/deploy3" &&
+                    sudo git reset --hard "origin/${{ inputs.branch-name }}" &&
                     sudo docker-compose down &&
                     sudo docker-compose build api &&
                     sudo docker-compose build web &&
