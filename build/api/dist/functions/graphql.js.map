@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../src/functions/graphql.ts"],
-  "sourcesContent": ["import { createGraphQLHandler } from '@redwoodjs/graphql-server';\n\nimport directives from 'src/directives/**/*.{js,ts}';\nimport sdls from 'src/graphql/**/*.sdl.{js,ts}';\nimport services from 'src/services/**/*.{js,ts}';\n\nimport { db } from 'src/lib/db';\nimport { logger } from 'src/lib/logger';\n\nexport const handler = createGraphQLHandler({\n  loggerConfig: { logger, options: {} },\n  directives,\n  sdls,\n  services,\n  cors: {\n    origin: '*',\n    credentials: true,\n  },\n  onException: () => {\n    // Disconnect from your database with an unhandled exception.\n    db.$disconnect();\n  },\n});\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;;;;4BAAqC;AAA4B,yCAAA;AAAA,mCAAA;AAAA,qBAAA;AAAA,2BAAA;AAMjE,gBAAW;AACX,oBAAe;AAPkD,IAAAA,aAAA,CAAA;AAAAA,WAAAC,0BAAAC;AAAAF,WAAAG,oBAAAC;AAAA,IAAAC,OAAA,CAAA;AAAAA,KAAAC,YAAAC;AAAA,IAAAC,WAAA,CAAA;AAAAA,SAAAC,cAAAC;AAS1D,MAAMC,cAAUC,4CAAqB;EAC1CC,cAAc;IAAEC;IAAQC,SAAS,CAAC;EAAE;EACpCf;EACAK;EACAG;EACAQ,MAAM;IACJC,QAAQ;IACRC,aAAa;EACf;EACAC,aAAaA,MAAM;AAEjBC,iBAAGC,YAAW;EAChB;AACF,CAAC;",
-  "names": ["directives", "requireAuth_requireAuth", "directives_requireAuth_requireAuth", "skipAuth_skipAuth", "directives_skipAuth_skipAuth", "sdls", "posts_sdl", "sdls_posts_sdl", "services", "posts_posts", "services_posts_posts", "handler", "createGraphQLHandler", "loggerConfig", "logger", "options", "cors", "origin", "credentials", "onException", "db", "$disconnect"]
-}
