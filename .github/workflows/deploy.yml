@@ -10,59 +10,11 @@ jobs:
       contents: write
       id-token: write
     steps:
-      - uses: actions/checkout@v3
+      name: Deploy master
+      uses: ./.github/actions/deploy-action
+      with:
+        branch-name: deploy3
 
-      - name: Create env file
-        run: |
-            echo "${{ secrets.ENV_FILE }}" | base64 --decode > .env
-
-      - name: Run prebuild
-        run: node prebuild.js
-
-      - name: Run install
-        run: yarn install --immutable
-
-      - name: Run Build
-        run: yarn rw build
-
-      - name: Copy build files to deploy branch
-        run: mkdir -p build/{api,web} &&
-             mv api/dist build/api &&
-             mv web/dist build/web &&
-             git checkout HEAD -- redwood.toml &&
-             git fetch --all &&
-             git checkout deploy3 &&
-             rm -rf api/dist &&
-             rm -rf web/dist &&
-             mv build/api/dist api &&
-             mv build/web/dist web &&
-             rm -rf build
-
-
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: build
-          skip_dirty_check: true
-          branch: deploy3
-          push_options: '--force'
-
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-      - id: 'compute-ssh'
-        uses: 'google-github-actions/ssh-compute@v0'
-        with:
-          instance_name: 'host-server-2'
-          zone: 'us-west4-b'
-          ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
-          command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy &&
-                    sudo git fetch --all &&
-                    sudo git reset --hard "origin/deploy3" &&
-                    sudo docker-compose down &&
-                    sudo docker-compose build api &&
-                    sudo docker-compose build web &&
-                    sudo docker-compose up -d'
 
 
 
