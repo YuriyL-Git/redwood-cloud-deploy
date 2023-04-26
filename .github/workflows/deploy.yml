@@ -29,7 +29,6 @@ jobs:
              git checkout HEAD -- redwood.toml &&
              git fetch --all &&
              git checkout deploy3 &&
-             sleep 2 &&
              rm -rf api/dist &&
              rm -rf web/dist &&
              mv build/api/dist api &&
