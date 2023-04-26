@@ -25,7 +25,7 @@ jobs:
       - name: Run Build
         run: yarn rw build
 
-      - name: Setup folders
+      - name: Copy build files to deploy branch
         run: mkdir -p build/{api,web} &&
              mv api/dist build/api &&
              mv web/dist build/web &&
