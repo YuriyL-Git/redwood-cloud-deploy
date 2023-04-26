@@ -30,11 +30,14 @@ jobs:
              git fetch --all &&
              git checkout deploy3 &&
              sleep 2 &&
-             rm -r api/dist &&
-             rm -r web/dist &&
-             mv build/api/dist api &&
-             mv build/web/dist web &&
-             rm -r build
+             ls api
+           #  rm -r api/dist &&
+           #  rm -r web/dist &&
+          #   mv build/api/dist api &&
+           #  mv build/web/dist web &&
+          #   rm -r build
+
+
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: build
