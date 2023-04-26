@@ -22,7 +22,7 @@ jobs:
           instance_name: 'host-server-2'
           zone: 'us-west4-b'
           ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
-          command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy && sudo chmod +x docker-rebuild.sh &&  sudo ./docker-rebuild.sh '
+          command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy && sudo docker-compose down'
 
 
 
