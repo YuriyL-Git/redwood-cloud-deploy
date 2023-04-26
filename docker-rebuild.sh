@@ -6,5 +6,5 @@ git reset --hard "origin/${deploy_branch}"
 docker-compose down
 docker-compose build api
 docker-compose build web
-docker-compose up -d
+#docker-compose up -d
 exit 0
