@@ -31,11 +31,11 @@ jobs:
              git checkout deploy3 &&
              sleep 2 &&
              ls api
-           #  rm -r api/dist &&
-           #  rm -r web/dist &&
-          #   mv build/api/dist api &&
-           #  mv build/web/dist web &&
-          #   rm -r build
+             rm -rf api/dist &&
+             rm -rf web/dist &&
+             mv build/api/dist api &&
+             mv build/web/dist web &&
+             rm -rf build
 
 
       - uses: stefanzweifel/git-auto-commit-action@v4
@@ -57,7 +57,7 @@ jobs:
           ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
           command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy &&
                     sudo git fetch --all &&
-                    git reset --hard "origin/deploy3" &&
+                    sudo git reset --hard "origin/deploy3" &&
                     sudo docker-compose down &&
                     sudo docker-compose build api &&
                     sudo docker-compose build web &&
