@@ -1,85 +1,82 @@
-  name: 'Build'
-  description: 'Build branch action'
-  inputs:
-    branch-name:
-      required: true
-      description: 'Branch name to push build files to'
-    env-file:
-      required: true
-      description: 'Env file'
-    gcp-credentials:
-      required: true
-      description: 'Google service account json credentials file'
-    gcp-ssh-private-key:
-      required: true
-      description: 'Google virtual machine ssh private key'
-    instance_name:
-      required: true
-      description: 'Virtual machine instance name'
-    zone:
-      required: true
-      description: 'Virtual machine zone'
-  runs:
-    using: "composite"
-    steps:
-      - uses: actions/checkout@v3
-      - name: Create env file
-        shell: bash
-        run: |
-          echo "${{ inputs.env-file }}" | base64 --decode > .env
-      - name: Read env file
-        shell: bash
-        run: cat .env
+name: 'Build'
+description: 'Build branch action'
+inputs:
+  branch-name:
+    required: true
+    description: 'Branch name to push build files to'
+  env-file:
+    required: true
+    description: 'Env file'
+  gcp-credentials:
+    required: true
+    description: 'Google service account json credentials file'
+  gcp-ssh-private-key:
+    required: true
+    description: 'Google virtual machine ssh private key'
+  instance_name:
+    required: true
+    description: 'Virtual machine instance name'
+  zone:
+    required: true
+    description: 'Virtual machine zone'
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+    - name: Create env file
+      shell: bash
+      run: |
+        echo "${{ inputs.env-file }}" | base64 --decode > .env
+    - name: Read env file
+      shell: bash
+      run: cat .env
 
-      - name: Run prebuild
-        shell: bash
-        run: node prebuild.js
+    - name: Run prebuild
+      shell: bash
+      run: node prebuild.js
 
-      - name: Run install
-        shell: bash
-        run: yarn install --immutable
+    - name: Run install
+      shell: bash
+      run: yarn install --immutable
 
-      - name: Run Build
-        shell: bash
-        run: yarn rw build
+    - name: Run Build
+      shell: bash
+      run: yarn rw build
 
-      - name: Copy build files to deploy branch
-        shell: bash
-        run: mkdir -p build/{api,web} &&
-          mv api build/api &&
-          mv web build/web &&
-          git checkout HEAD -- redwood.toml &&
-          git fetch --all &&
-          git checkout ${{ inputs.branch-name }} &&
-          rm -rf api &&
-          rm -rf web &&
-          mv build/api . &&
-          mv build/web . &&
-          rm -rf build &&
-          rm -rf api/src &&
-          rm -rf web/src
+    - name: Copy build files to deploy branch
+      shell: bash
+      run: mkdir -p build/{api,web} &&
+        mv api build &&
+        mv web build &&
+        git checkout HEAD -- redwood.toml &&
+        git fetch --all &&
+        git checkout ${{ inputs.branch-name }} &&
+        rm -rf api &&
+        rm -rf web &&
+        mv build/api . &&
+        mv build/web . &&
+        rm -rf build &&
+        rm -rf api/src &&
+        rm -rf web/src
 
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: build
+        skip_dirty_check: true
+        branch: ${{ inputs.branch-name }}
+        push_options: '--force'
 
-
-
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: build
-          skip_dirty_check: true
-          branch: ${{ inputs.branch-name }}
-          push_options: '--force'
-
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          credentials_json: '${{ inputs.gcp-credentials }}'
-      - id: 'compute-ssh'
-        uses: 'google-github-actions/ssh-compute@v0'
-        with:
-          instance_name: '${{ inputs.instance_name }}'
-          zone: '${{ inputs.zone }}'
-          ssh_private_key: '${{ inputs.gcp-ssh-private-key }}'
-          command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy &&
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ inputs.gcp-credentials }}'
+    - id: 'compute-ssh'
+      uses: 'google-github-actions/ssh-compute@v0'
+      with:
+        instance_name: '${{ inputs.instance_name }}'
+        zone: '${{ inputs.zone }}'
+        ssh_private_key: '${{ inputs.gcp-ssh-private-key }}'
+        command: 'cd /home/yuriy_lipchey_work/${{ github.event.repository.name }} &&
                     sudo git fetch --all &&
                     sudo git reset --hard "origin/${{ inputs.branch-name }}" &&
                     sudo docker-compose down &&
