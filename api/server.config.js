@@ -12,15 +12,23 @@
  * Note: This configuration does not apply in a serverless deploy.
  */
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+console.log('isDevelopment', isDevelopment);
+
+const { readFileSync } = require('fs');
 /** @type {import('fastify').FastifyServerOptions} */
 const config = {
   requestTimeout: 15_000,
   logger: {
     // Note: If running locally using `yarn rw serve` you may want to adust
     // the default non-development level to `info`
-    level: process.env.NODE_ENV === 'development' ? 'debug' : 'warn',
+    level: isDevelopment ? 'debug' : 'warn',
   },
-}
+  https: !isDevelopment && {
+    key: readFileSync('./server.key'),
+    cert: readFileSync('./server.crt'),
+  },
+};
 
 /**
  * You can also register Fastify plugins and additional routes for the API and Web sides
@@ -36,17 +44,17 @@ const config = {
 /** @type {import('@redwoodjs/api-server/dist/fastify').FastifySideConfigFn} */
 const configureFastify = async (fastify, options) => {
   if (options.side === 'api') {
-    fastify.log.info({ custom: { options } }, 'Configuring api side')
+    fastify.log.info({ custom: { options } }, 'Configuring api side');
   }
 
   if (options.side === 'web') {
-    fastify.log.info({ custom: { options } }, 'Configuring web side')
+    fastify.log.info({ custom: { options } }, 'Configuring web side');
   }
 
-  return fastify
-}
+  return fastify;
+};
 
 module.exports = {
   config,
   configureFastify,
-}
+};
