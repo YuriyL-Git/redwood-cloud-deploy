@@ -7,6 +7,9 @@
     env-file:
       required: true
       description: 'Env file'
+    gcp-credentials:
+      required: true
+      description: 'Google service account json credentials file'
   runs:
     using: "composite"
     steps:
@@ -14,6 +17,9 @@
         shell: bash
         run: |
           echo "${{ inputs.env-file }}" | base64 --decode > .env
+      - name: Read env file
+        shell: bash
+        run: cat .env
 
       - name: Run prebuild
         shell: bash
@@ -52,7 +58,7 @@
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+          credentials_json: '${{ inputs.gcp-credentials }}'
       - id: 'compute-ssh'
         uses: 'google-github-actions/ssh-compute@v0'
         with:
