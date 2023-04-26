@@ -13,6 +13,12 @@
     gcp-ssh-private-key:
       required: true
       description: 'Google virtual machine ssh private key'
+    instance_name:
+      required: true
+      description: 'Virtual machine instance name'
+    zone:
+      required: true
+      description: 'Virtual machine zone'
   runs:
     using: "composite"
     steps:
@@ -66,8 +72,8 @@
       - id: 'compute-ssh'
         uses: 'google-github-actions/ssh-compute@v0'
         with:
-          instance_name: 'host-server-2'
-          zone: 'us-west4-b'
+          instance_name: '${{ inputs.instance_name }}'
+          zone: '${{ inputs.zone }}'
           ssh_private_key: '${{ inputs.gcp-ssh-private-key }}'
           command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy &&
                     sudo git fetch --all &&
