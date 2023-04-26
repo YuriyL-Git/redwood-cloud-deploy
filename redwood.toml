@@ -7,11 +7,11 @@
 
 [web]
 title = "Redwood App"
-port = "8910"
-apiUrl = "http://:"
+port = "${APP_PORT}"
+apiUrl = "${API_URL}"
 includeEnvironmentVariables = []
 [api]
-port = "8911"
+port = "${API_PORT}"
 [browser]
 open = true
 [notifications]
