@@ -46,8 +46,8 @@
       - name: Copy build files to deploy branch
         shell: bash
         run: mkdir -p build/{api,web} &&
-          mv api build/api &&
-          mv web build/web &&
+          mv api build &&
+          mv web build &&
           git checkout HEAD -- redwood.toml &&
           git fetch --all &&
           git checkout ${{ inputs.branch-name }} &&
@@ -79,7 +79,7 @@
           instance_name: '${{ inputs.instance_name }}'
           zone: '${{ inputs.zone }}'
           ssh_private_key: '${{ inputs.gcp-ssh-private-key }}'
-          command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy &&
+          command: 'cd /home/yuriy_lipchey_work/${{ github.event.repository.name }} &&
                     sudo git fetch --all &&
                     sudo git reset --hard "origin/${{ inputs.branch-name }}" &&
                     sudo docker-compose down &&
