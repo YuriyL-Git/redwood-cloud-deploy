@@ -12,23 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-      - id: 'compute-ssh'
-        uses: 'google-github-actions/ssh-compute@v0'
-        with:
-          instance_name: 'host-server-2'
-          zone: 'us-west4-b'
-          ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
-          command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy &&
-                    sudo docker-compose down &&
-                    sudo docker-compose up -d'
-
-
-
-
       - name: 'Create env file'
         run: |
             echo "${{ secrets.ENV_FILE }}" | base64 --decode > .env
@@ -60,6 +43,24 @@ jobs:
           skip_dirty_check: true
           branch: deploy3
           push_options: '--force'
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+      - id: 'compute-ssh'
+        uses: 'google-github-actions/ssh-compute@v0'
+        with:
+          instance_name: 'host-server-2'
+          zone: 'us-west4-b'
+          ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
+          command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy &&
+                    sudo git fetch --all &&
+                    git reset --hard "origin/deploy3" &&
+                    sudo docker-compose down &&
+                    sudo docker-compose build api &&
+                    sudo docker-compose build web &&
+                    sudo docker-compose up -d'
 
 
 

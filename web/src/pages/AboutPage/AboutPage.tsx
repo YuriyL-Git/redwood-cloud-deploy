@@ -8,7 +8,7 @@ const AboutPage = () => {
 
       <p>
         This site was created to demonstrate my mastery of Redwood: Look on my
-        works, ye mighty, and despair!hosttest test ssl
+        works, ye mighty, and despair! docker
       </p>
     </>
   );
