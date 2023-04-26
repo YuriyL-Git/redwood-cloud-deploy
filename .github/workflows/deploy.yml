@@ -16,6 +16,7 @@ jobs:
           branch-name: deploy3
           env-file: ${{ secrets.ENV_FILE }}
           gcp-credentials: ${{ secrets.GCP_CREDENTIALS }}
+          gcp-ssh-private-key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
 
 
 

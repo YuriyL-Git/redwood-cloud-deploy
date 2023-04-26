@@ -10,6 +10,9 @@
     gcp-credentials:
       required: true
       description: 'Google service account json credentials file'
+    gcp-ssh-private-key:
+      required: true
+      description: 'Google virtual machine ssh private key'
   runs:
     using: "composite"
     steps:
@@ -64,7 +67,7 @@
         with:
           instance_name: 'host-server-2'
           zone: 'us-west4-b'
-          ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
+          ssh_private_key: '${{ inputs.gcp-ssh-private-key }}'
           command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy &&
                     sudo git fetch --all &&
                     sudo git reset --hard "origin/deploy3" &&
