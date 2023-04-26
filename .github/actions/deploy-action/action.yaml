@@ -4,13 +4,16 @@
     branch-name:
       required: true
       description: 'Branch name to push build files to'
+    env-file:
+      required: true
+      description: 'Env file'
   runs:
     using: "composite"
     steps:
       - name: Create env file
         shell: bash
         run: |
-          echo "${{ secrets.ENV_FILE }}" | base64 --decode > .env
+          echo "${{ inputs.env-file }}" | base64 --decode > .env
 
       - name: Run prebuild
         shell: bash
