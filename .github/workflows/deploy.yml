@@ -23,16 +23,16 @@ jobs:
       - name: Run Build
         run: yarn rw build
       - name: setup folders
-        run: mkdir -p build/{api,web};
-             mv api/dist build/api;
-             mv web/dist build/web;
-             git checkout HEAD -- redwood.toml;
-             git fetch --all;
-             git checkout deploy3;
-             rm -r api/dist;
-             rm -r web/dist;
-             mv build/api/dist api;
-             mv build/web/dist web;
+        run: mkdir -p build/{api,web} &&
+             mv api/dist build/api &&
+             mv web/dist build/web &&
+             git checkout HEAD -- redwood.toml&&
+             git fetch --all &&
+             git checkout deploy3 &&
+             rm -r api/dist &&
+             rm -r web/dist &&
+             mv build/api/dist api &&
+             mv build/web/dist web &&
              rm -r build
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
