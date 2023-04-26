@@ -4,6 +4,7 @@
 .netlify
 .redwood
 .prisma/*
+dist
 dev.db*
 dist-babel
 env.txt
