@@ -7,13 +7,14 @@
     ]
   },
   "scripts": {
-    "start": "DB_HOST_NAME=localhost yarn rw dev",
+    "start": "DB_HOST_NAME=localhost API_URL=http://0.0.0.0:8911 APP_PORT=8910 yarn rw dev",
     "build": "yarn rw build",
     "upgrade": "yarn rw upgrade",
-    "migrate-dev": "yarn rw prisma migrate dev",
-    "prisma-studio": "yarn rw prisma studio",
+    "migrate-dev": "DB_HOST_NAME=localhost yarn rw prisma migrate dev",
+    "prisma-studio": "DB_HOST_NAME=localhost yarn rw prisma studio",
     "page": "yarn rw g page",
-    "types": "yarn rw g types"
+    "types": "yarn rw g types",
+    "env-generate": "cat .env | base64 -w 0 > env.txt "
   },
   "devDependencies": {
     "@redwoodjs/core": "4.4.3"

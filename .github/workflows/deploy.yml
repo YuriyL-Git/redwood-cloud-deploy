@@ -1,0 +1,66 @@
+name: CI
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: 'write'
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+      - id: 'compute-ssh'
+        uses: 'google-github-actions/ssh-compute@v0'
+        with:
+          instance_name: 'host-server-2'
+          zone: 'us-west4-b'
+          ssh_private_key: '${{ secrets.GCP_SSH_PRIVATE_KEY }}'
+          command: 'cd /home/yuriy_lipchey_work/redwood-cloud-deploy && sudo chmod +x docker-rebuild.sh &&  sudo ./docker-rebuild.sh &'
+
+
+
+
+      - name: 'Create env file'
+        run: |
+            echo "${{ secrets.ENV_FILE }}" | base64 --decode > .env
+
+      - name: Run a one-line script
+        run: node scripts/trigger-build.js
+
+      - name: Run prebuild
+        run: node prebuild.js
+      - name: Run install
+        run: yarn install --immutable
+      - name: Run Build
+        run: yarn rw build
+      - name: setup folders
+        run: mkdir -p build/{api,web};
+             mv api/dist build/api;
+             mv web/dist build/web;
+             git checkout HEAD -- redwood.toml;
+             git fetch --all;
+             git checkout deploy3;
+             rm -r api/dist;
+             rm -r web/dist;
+             mv build/api/dist api;
+             mv build/web/dist web;
+             rm -r build
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: build
+          skip_dirty_check: true
+          branch: deploy3
+          push_options: '--force'
+
+
+
+
+
+

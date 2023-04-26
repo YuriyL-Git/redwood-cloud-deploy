@@ -14,7 +14,7 @@ setTimeout(async () => {
 
 async function getEnvVariables() {
   const envData = await fs.readFile(envFile, encoding);
-
+  console.log('env file content', envData);
   const lines = envData
     .split('\n')
     .map((line) => line.trim())

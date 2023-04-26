@@ -6,6 +6,7 @@
 .prisma/*
 dev.db*
 dist-babel
+env.txt
 node_modules
 yarn-error.log
 web/public/mockServiceWorker.js
