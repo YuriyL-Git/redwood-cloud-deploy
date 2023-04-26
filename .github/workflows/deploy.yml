@@ -30,7 +30,6 @@ jobs:
              git fetch --all &&
              git checkout deploy3 &&
              sleep 2 &&
-             ls api
              rm -rf api/dist &&
              rm -rf web/dist &&
              mv build/api/dist api &&
