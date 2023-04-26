@@ -1,0 +1,15 @@
+/*! core-js/modules/esnext.async-iterator.map.js */
+
+/*! core-js/modules/esnext.iterator.map.js */
+
+/*! humanize-string */
+
+/*! react */
+
+/*!********************************!*\
+  !*** ./src/lib/formatters.tsx ***!
+  \********************************/
+
+/*!************************************************************!*\
+  !*** ./src/pages/Post/PostsPage/PostsPage.tsx + 2 modules ***!
+  \************************************************************/
