@@ -16,9 +16,6 @@ jobs:
         run: |
             echo "${{ secrets.ENV_FILE }}" | base64 --decode > .env
 
-      - name: Run a one-line script
-        run: node scripts/trigger-build.js
-
       - name: Run prebuild
         run: node prebuild.js
       - name: Run install
