@@ -26,9 +26,10 @@ jobs:
         run: mkdir -p build/{api,web} &&
              mv api/dist build/api &&
              mv web/dist build/web &&
-             git checkout HEAD -- redwood.toml&&
+             git checkout HEAD -- redwood.toml &&
              git fetch --all &&
              git checkout deploy3 &&
+             sleep 2 &&
              rm -r api/dist &&
              rm -r web/dist &&
              mv build/api/dist api &&
