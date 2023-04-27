@@ -39,7 +39,7 @@ runs:
 
     - name: Run prebuild
       shell: bash
-      run: node prebuild.js
+      run: node prebuild.js ${{ inputs.branch-name }}
 
     - name: Run install
       shell: bash
