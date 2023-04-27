@@ -78,6 +78,6 @@ runs:
                     sudo git reset --hard "origin/${{ inputs.branch-name }}" &&
                     sudo echo "${{ inputs.env-file }}" | base64 --decode | sudo tee .env &&
                     sudo docker-compose down &&
-                    sudo docker-compose build api --no-cache --pull &&
-                    sudo docker-compose build web --no-cache --pull &&
+                    sudo docker-compose build --no-cache --pull api  &&
+                    sudo docker-compose build --no-cache --pull web  &&
                     sudo docker-compose up -d'
