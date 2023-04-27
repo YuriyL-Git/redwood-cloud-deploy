@@ -45,13 +45,16 @@ runs:
       run: mkdir -p build/{api,web} &&
         mv api build &&
         mv web build &&
+        cp -r .github build &&
         git checkout HEAD -- redwood.toml &&
         git fetch --all &&
         git checkout ${{ inputs.branch-name }} &&
+        rm -rf .github
         rm -rf api &&
         rm -rf web &&
         mv build/api . &&
         mv build/web . &&
+        mv build/.github . &&
         rm -rf build &&
         rm -rf api/src &&
         rm -rf web/src
@@ -78,7 +81,8 @@ runs:
                     sudo git reset --hard "origin/${{ inputs.branch-name }}" &&
                     sudo echo "${{ inputs.env-file }}" | base64 --decode | sudo tee .env &&
                     sudo docker-compose down &&
-                    sudo docker system prune --all &&
+                    sudo docker system prune -a -f &&
                     sudo docker-compose build --no-cache --pull api  &&
                     sudo docker-compose build --no-cache --pull web  &&
                     sudo docker-compose up -d'
+        #   sudo docker system prune --all &&
