@@ -13,8 +13,8 @@ COPY redwood.toml .
 COPY yarn.lock .
 COPY .env .
 COPY scripts/serve-prepare.js .
-COPY server.key .
-COPY server.crt .
+COPY https_key.key .
+COPY https_certificate.crt .
 
 RUN apk add --update --no-cache openssl1.1-compat
 RUN apk add --no-cache --upgrade bash
