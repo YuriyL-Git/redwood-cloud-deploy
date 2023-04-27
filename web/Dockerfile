@@ -11,6 +11,8 @@ FROM nginx as runner
 
 COPY --from=builder /app/web/dist /usr/share/nginx/html
 COPY web/nginx.conf /etc/nginx/conf.d/default.conf
+RUN node web-prepare.js
+RUN cat /etc/nginx/conf.d/default.conf/nginx.conf
 COPY https_key.key /etc/nginx/conf.d/https_key.key
 COPY https_certificate.crt /etc/nginx/conf.d/https_certificate.crt
 
