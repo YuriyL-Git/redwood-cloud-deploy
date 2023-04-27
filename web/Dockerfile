@@ -11,8 +11,8 @@ FROM nginx as runner
 
 COPY --from=builder /app/web/dist /usr/share/nginx/html
 COPY web/nginx.conf /etc/nginx/conf.d/default.conf
-COPY web/https_key.key /etc/nginx/conf.d/https_key.key
-COPY web/https_certificate.crt /etc/nginx/conf.d/https_certificate.crt
+COPY https_key.key /etc/nginx/conf.d/https_key.key
+COPY https_certificate.crt /etc/nginx/conf.d/https_certificate.crt
 
 RUN ls -lA /usr/share/nginx/html
 
