@@ -1,7 +1,6 @@
 /* eslint-disable */
 const fs = require('fs').promises;
-const branchName = process.argv[2];
-console.log('branchName', branchName);
+const subdomainName = process.argv[2];
 
 const redwoodTomlFile = 'redwood.toml';
 
@@ -22,13 +21,13 @@ async function getEnvVariables() {
     .map((line) => line.trim())
     .filter((line) => line.length > 0 && !line.startsWith('#'));
 
-  if (branchName !== 'production') {
+  if (subdomainName) {
     const domainNameIndex = lines.findIndex((line) =>
       line.includes('DOMAIN_NAME')
     );
 
     const [key, value] = lines[domainNameIndex].split('=');
-    lines[domainNameIndex] = `${key}=${branchName}.${value}`;
+    lines[domainNameIndex] = `${key}=${subdomainName}.${value}`;
   }
 
   const linesWithValuesApplied = lines.map((line) => {

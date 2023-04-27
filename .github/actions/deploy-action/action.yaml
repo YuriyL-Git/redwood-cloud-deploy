@@ -1,7 +1,10 @@
 name: 'Build'
 description: 'Build branch action'
 inputs:
-  branch-name:
+  subdomain-name:
+    required: false
+    description: 'Subdomain name for build'
+  build-branch-name:
     required: true
     description: 'Branch name to push build files to'
   env-file:
@@ -39,7 +42,7 @@ runs:
 
     - name: Run prebuild
       shell: bash
-      run: node prebuild.js ${{ inputs.branch-name }}
+      run: node prebuild.js ${{ inputs.subdomain-name }}
 
     - name: Run install
       shell: bash
@@ -58,7 +61,7 @@ runs:
 
         git checkout HEAD -- redwood.toml &&
         git fetch --all &&
-        git checkout ${{ inputs.branch-name }} &&
+        git checkout ${{ inputs.subdomain-name}} &&
         node scripts/setup-gitignore.js &&
         rm -rf .github &&
         rm -rf api &&
@@ -76,7 +79,7 @@ runs:
       with:
         commit_message: build
         skip_dirty_check: true
-        branch: ${{ inputs.branch-name }}
+        branch: ${{ inputs.build-branch-name }}
         push_options: '--force'
 
     - id: 'auth'
@@ -92,7 +95,7 @@ runs:
         command: 'cd /home/${{ inputs.vm-user-name }}/${{ github.event.repository.name }} &&
                     sudo git config --global --add safe.directory /home/${{ inputs.vm-user-name }}/${{ github.event.repository.name }} &&
                     sudo git fetch --all &&
-                    sudo git reset --hard "origin/${{ inputs.branch-name }}" &&
+                    sudo git reset --hard "origin/${{ inputs.build-branch-name }}" &&
                     sudo echo "${{ inputs.env-file }}" | base64 --decode | sudo tee .env &&
                     sudo echo "${{ inputs.https-certificate }}" | sudo tee https_certificate.crt &&
                     sudo echo "${{ inputs.https-key }}" | sudo tee https_key.key &&
