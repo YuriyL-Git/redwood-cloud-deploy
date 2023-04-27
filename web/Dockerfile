@@ -10,6 +10,7 @@ COPY scripts/web-prepare.js .
 COPY .env .
 RUN node web-prepare.js
 
+
 FROM nginx as runner
 
 COPY --from=builder /app/web/dist /usr/share/nginx/html
