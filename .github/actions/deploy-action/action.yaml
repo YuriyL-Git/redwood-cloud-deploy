@@ -61,7 +61,7 @@ runs:
 
         git checkout HEAD -- redwood.toml &&
         git fetch --all &&
-        git checkout ${{ inputs.subdomain-name}} &&
+        git checkout ${{ inputs.build-branch-name}} &&
         node scripts/setup-gitignore.js &&
         rm -rf .github &&
         rm -rf api &&
