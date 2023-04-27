@@ -12,14 +12,16 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/deploy-action
         with:
-          branch-name: deploy3
           env-file: ${{ secrets.ENV_FILE }}
           gcp-credentials: ${{ secrets.GCP_CREDENTIALS }}
           gcp-ssh-private-key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
           https-certificate: ${{ secrets.HTTPS_SERTIFICATE }}
           https-key: ${{ secrets.HTTPS_KEY }}
+
+          branch-name: deploy3
           instance_name: host-server-2
           zone: us-west4-b
+          vm-user-name: yuriy_lipchey_work
 
 
 

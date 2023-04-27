@@ -13,6 +13,9 @@ inputs:
   gcp-ssh-private-key:
     required: true
     description: 'Google virtual machine ssh private key'
+  vm-user-name:
+    required: true
+    description: 'Virtual machine user name'
   instance_name:
     required: true
     description: 'Virtual machine instance name'
@@ -86,7 +89,7 @@ runs:
         instance_name: '${{ inputs.instance_name }}'
         zone: '${{ inputs.zone }}'
         ssh_private_key: '${{ inputs.gcp-ssh-private-key }}'
-        command: 'cd /home/yuriy_lipchey_work/${{ github.event.repository.name }} &&
+        command: 'cd /home/${{ inputs.vm-user-name }}/${{ github.event.repository.name }} &&
                     sudo git fetch --all &&
                     sudo git reset --hard "origin/${{ inputs.branch-name }}" &&
                     sudo echo "${{ inputs.env-file }}" | base64 --decode | sudo tee .env &&
@@ -97,4 +100,3 @@ runs:
                     sudo docker-compose build --no-cache --pull api  &&
                     sudo docker-compose build --no-cache --pull web  &&
                     sudo docker-compose up -d'
-        #   sudo docker system prune --all &&
