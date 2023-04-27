@@ -1,5 +1,7 @@
 /* eslint-disable */
 const fs = require('fs').promises;
+const branchName = process.argv[2];
+console.log('branchName', branchName);
 
 const redwoodTomlFile = 'redwood.toml';
 
@@ -8,17 +10,26 @@ const encoding = 'utf8';
 
 setTimeout(async () => {
   const envObject = await getEnvVariables();
+
   const redwoodTomlContent = await fs.readFile(redwoodTomlFile, encoding);
   updateRedwoodToml(redwoodTomlContent, envObject);
 }, 0);
 
 async function getEnvVariables() {
   const envData = await fs.readFile(envFile, encoding);
-  console.log('env file content', envData);
   const lines = envData
     .split('\n')
     .map((line) => line.trim())
     .filter((line) => line.length > 0 && !line.startsWith('#'));
+
+  if (branchName !== 'production') {
+    const domainNameIndex = lines.findIndex((line) =>
+      line.includes('DOMAIN_NAME')
+    );
+
+    const [key, value] = lines[domainNameIndex].split('=');
+    lines[domainNameIndex] = `${key}=${branchName}.${value}`;
+  }
 
   const linesWithValuesApplied = lines.map((line) => {
     let currentLine = line;

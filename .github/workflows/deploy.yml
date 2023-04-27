@@ -18,10 +18,12 @@ jobs:
           https-certificate: ${{ secrets.HTTPS_SERTIFICATE }}
           https-key: ${{ secrets.HTTPS_KEY }}
 
-          branch-name: deploy3
-          instance_name: host-server-2
-          zone: us-west4-b
+          branch-name: master-build
+          instance_name: stage-server
+          zone: us-central1-a
           vm-user-name: yuriy_lipchey_work
+
+
 
 
 
