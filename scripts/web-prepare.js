@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 
 const envFile = '.env';
-const nginxFile = '/etc/nginx/conf.d/default.conf/nginx.conf';
+const nginxFile = '/etc/nginx/conf.d/default.conf';
 const encoding = 'utf8';
 
 setTimeout(async () => {
