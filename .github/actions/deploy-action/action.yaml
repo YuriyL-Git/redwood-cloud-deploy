@@ -50,7 +50,7 @@ runs:
         git checkout HEAD -- redwood.toml &&
         git fetch --all &&
         git checkout ${{ inputs.branch-name }} &&
-
+        node scripts/setup-gitignore.js
         rm -rf .github
         rm -rf api &&
         rm -rf web &&
@@ -58,7 +58,7 @@ runs:
         mv build/api . &&
         mv build/web . &&
         mv build/.github . &&
-        
+
         rm -rf build &&
         rm -rf api/src &&
         rm -rf web/src
