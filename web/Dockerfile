@@ -8,7 +8,7 @@ COPY web web
 RUN rm -rf ./web/src
 COPY scripts/web-prepare.js .
 COPY .env .
-RUN web-prepare.js
+RUN node web-prepare.js
 
 FROM nginx as runner
 
