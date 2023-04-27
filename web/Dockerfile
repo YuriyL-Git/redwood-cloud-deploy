@@ -5,6 +5,7 @@ ENV NODE_OPTIONS=--max_old_space_size=2048
 
 WORKDIR /app
 COPY web web
+COPY scripts/web-prepare.js .
 RUN rm -rf ./web/src
 
 FROM nginx as runner
