@@ -1,0 +1,2 @@
+/*! For license information please see 122.fd00d979.chunk.js.LICENSE.txt */
+"use strict";(self.webpackChunkweb=self.webpackChunkweb||[]).push([[122],{122:function(e,t,n){n.r(t);var a=n(27378),o=n(31786);t.default=function(){return a.createElement(a.Fragment,null,a.createElement(o.MetaTags,{title:"About",description:"About page"}),a.createElement("p",null,"This site was created to demonstrate my mastery of Redwood: Look on my works, ye mighty, and despair! docker test actions 2 branch name change zone3 458, new test 2233ddpp ggff nn gg hh hh"))}}}]);
