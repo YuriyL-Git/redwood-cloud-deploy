@@ -25,8 +25,8 @@ const config = {
     level: isDevelopment ? 'debug' : 'warn',
   },
   https: !isDevelopment && {
-    key: readFileSync('./server.key'),
-    cert: readFileSync('./server.crt'),
+    key: readFileSync('./https_key.key'),
+    cert: readFileSync('./https_certificate.crt'),
   },
 };
 
