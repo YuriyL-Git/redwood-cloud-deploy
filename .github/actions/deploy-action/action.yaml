@@ -60,6 +60,7 @@ runs:
         cp -r .github build &&
 
         git checkout HEAD -- redwood.toml &&
+        git checkout HEAD -- web/nginx.conf &&
         git fetch --all &&
         git checkout ${{ inputs.build-branch-name}} &&
         node scripts/setup-gitignore.js &&

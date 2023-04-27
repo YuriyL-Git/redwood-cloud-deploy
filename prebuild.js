@@ -3,6 +3,7 @@ const fs = require('fs').promises;
 const subdomainName = process.argv[2];
 
 const redwoodTomlFile = 'redwood.toml';
+const nginxFile = 'web/nginx.conf';
 
 const envFile = '.env';
 const encoding = 'utf8';
@@ -12,6 +13,13 @@ setTimeout(async () => {
 
   const redwoodTomlContent = await fs.readFile(redwoodTomlFile, encoding);
   updateRedwoodToml(redwoodTomlContent, envObject);
+
+  const nginxContent = (await fs.readFile(nginxFile, encoding)).replace(
+    /\${DOMAIN_NAME}/g,
+    envObject['domainName']
+  );
+  console.log('nginxContent', nginxContent);
+  fs.writeFile(nginxFile, nginxContent, encoding);
 }, 0);
 
 async function getEnvVariables() {
@@ -21,13 +29,13 @@ async function getEnvVariables() {
     .map((line) => line.trim())
     .filter((line) => line.length > 0 && !line.startsWith('#'));
 
-  if (subdomainName) {
-    const domainNameIndex = lines.findIndex((line) =>
-      line.includes('DOMAIN_NAME')
-    );
+  const domainNameIndex = lines.findIndex((line) =>
+    line.includes('DOMAIN_NAME')
+  );
+  const [domainNameKey, domainName] = lines[domainNameIndex].split('=');
 
-    const [key, value] = lines[domainNameIndex].split('=');
-    lines[domainNameIndex] = `${key}=${subdomainName}.${value}`;
+  if (subdomainName) {
+    lines[domainNameIndex] = `${domainNameKey}=${subdomainName}.${domainName}`;
   }
 
   const linesWithValuesApplied = lines.map((line) => {
@@ -48,11 +56,14 @@ async function getEnvVariables() {
     return currentLine;
   });
 
-  return linesWithValuesApplied.reduce((acc, curr) => {
+  const result = linesWithValuesApplied.reduce((acc, curr) => {
     const [key, value] = curr.split('=');
     acc[key] = value;
     return acc;
   }, {});
+
+  result['domainName'] = domainName;
+  return result;
 }
 
 function updateRedwoodToml(fileContent, envObject) {
