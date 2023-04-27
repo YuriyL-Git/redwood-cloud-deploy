@@ -1,6 +1,6 @@
 const fs = require('fs').promises;
 
-const envFile = '.env';
+const envFile = '/usr/share/.env';
 const nginxFile = '/etc/nginx/conf.d/default.conf';
 const encoding = 'utf8';
 
