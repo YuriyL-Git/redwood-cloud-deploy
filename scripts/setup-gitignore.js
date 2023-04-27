@@ -8,12 +8,12 @@ setTimeout(async () => {
   const packageContent = await fs.readFile(pathToFile, encoding);
   let result = packageContent.replace(/dist\n/, '');
 
-  if (!result.includes('ssl_key.key')) {
-    result = result + 'ssl_key.key \n';
+  if (!result.includes('https_key.key')) {
+    result = result + 'https_key.key \n';
   }
 
-  if (!result.includes('ssl_certificate.crt')) {
-    result = result + 'ssl_certificate.crt \n';
+  if (!result.includes('https_certificate.crt')) {
+    result = result + 'https_certificate.crt \n';
   }
 
   fs.writeFile(pathToFile, result, encoding);
