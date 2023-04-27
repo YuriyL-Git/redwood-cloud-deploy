@@ -20,3 +20,5 @@ async function prepareNginxConfig() {
   );
   fs.writeFile(nginxContent, nginxFile, encoding);
 }
+
+//fs
