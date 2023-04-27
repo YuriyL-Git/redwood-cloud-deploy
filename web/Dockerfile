@@ -5,7 +5,6 @@ ENV NODE_OPTIONS=--max_old_space_size=2048
 
 WORKDIR /app
 COPY web web
-COPY scripts/web-prepare.js .
 RUN rm -rf ./web/src
 
 FROM nginx as runner
@@ -13,7 +12,7 @@ FROM nginx as runner
 COPY --from=builder /app/web/dist /usr/share/nginx/html
 COPY web/nginx.conf /etc/nginx/conf.d/default.conf
 RUN ls
-COPY /app/web-prepare.js /usr/share
+COPY /scripts/web-prepare.js /usr/share
 RUN node /usr/share/web-prepare.js
 RUN cat /etc/nginx/conf.d/default.conf/nginx.conf
 COPY https_key.key /etc/nginx/conf.d/https_key.key
