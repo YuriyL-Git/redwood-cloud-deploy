@@ -90,6 +90,7 @@ runs:
         zone: '${{ inputs.zone }}'
         ssh_private_key: '${{ inputs.gcp-ssh-private-key }}'
         command: 'cd /home/${{ inputs.vm-user-name }}/${{ github.event.repository.name }} &&
+                    sudo git config --global --add safe.directory /home/${{ inputs.vm-user-name }}/${{ github.event.repository.name }} &&
                     sudo git fetch --all &&
                     sudo git reset --hard "origin/${{ inputs.branch-name }}" &&
                     sudo echo "${{ inputs.env-file }}" | base64 --decode | sudo tee .env &&
