@@ -4,8 +4,8 @@ services:
     restart: unless-stopped
     image: 'postgres:latest'
     # to avoid collision with local postgres port
-    ports:
-      - ${POSTGRES_REDIRECT_PORT}:${POSTGRES_PORT}
+  #  ports:
+   #   - ${POSTGRES_REDIRECT_PORT}:${POSTGRES_PORT}
     volumes:
       - pgdata:/var/lib/postgresql/data
     environment:
