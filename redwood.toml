@@ -6,7 +6,7 @@
 # https://redwoodjs.com/docs/app-configuration-redwood-toml
 
 [web]
-title = "Redwood App"
+title = "${APP_NAME}"
 port = "${APP_PORT}"
 apiUrl = "${API_URL}"
 includeEnvironmentVariables = []

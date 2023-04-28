@@ -18,7 +18,6 @@ setTimeout(async () => {
     /\${DOMAIN_NAME}/g,
     envObject['domainName']
   );
-  console.log('nginxContent', nginxContent);
   fs.writeFile(nginxFile, nginxContent, encoding);
 }, 0);
 
@@ -67,7 +66,7 @@ async function getEnvVariables() {
 }
 
 function updateRedwoodToml(fileContent, envObject) {
-  const keys = ['APP_PORT', 'API_PORT', 'API_URL'];
+  const keys = ['APP_PORT', 'API_PORT', 'API_URL', 'APP_NAME'];
 
   let result = fileContent;
   for (const key of keys) {
