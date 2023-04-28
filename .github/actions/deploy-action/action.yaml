@@ -80,6 +80,7 @@ runs:
       with:
         commit_message: build
         skip_dirty_check: true
+        commit_options: '--amend --no-edit'
         branch: ${{ inputs.build-branch-name }}
         push_options: '--force'
 
