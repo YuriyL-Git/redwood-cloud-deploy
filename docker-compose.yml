@@ -52,6 +52,8 @@ services:
         APP_PORT: ${APP_PORT}
 
   #https://hub.docker.com/r/prodrigestivill/postgres-backup-local
+  #! run following command on virtual machine once to grant permissions
+  # sudo mkdir -p /var/opt/pgbackups && sudo  chown -R 999:999 /var/opt/pgbackups
   pgbackups:
     image: prodrigestivill/postgres-backup-local
     restart: always
