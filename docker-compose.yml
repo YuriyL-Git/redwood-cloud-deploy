@@ -1,6 +1,6 @@
 version: '3'
 services:
-  database:
+  postgres:
     restart: unless-stopped
     image: 'postgres:latest'
     # to avoid collision with local postgres port
@@ -18,7 +18,7 @@ services:
         context: ./
         dockerfile: api/Dockerfile
     depends_on:
-      - database
+      - postgres
     ports:
       - '${API_PORT}:${API_PORT}'
     logging:
@@ -61,9 +61,9 @@ services:
     volumes:
       - /var/opt/pgbackups:/backups
     links:
-      - database
+      - postgres
     depends_on:
-      - database
+      - postgres
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_DB=${DB_NAME}
