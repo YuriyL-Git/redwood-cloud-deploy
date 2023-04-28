@@ -59,7 +59,7 @@ services:
     volumes:
       - /var/opt/pgbackups:/backups
     links:
-      - postgres
+      - database
     depends_on:
       - database
     environment:
