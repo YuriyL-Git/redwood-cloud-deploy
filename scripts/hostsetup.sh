@@ -10,6 +10,7 @@ sudo apt update
 
 sudo curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt-get install -y nodejs
 sudo npm install --global yarn
+sudo apt install zip unzip -y
 
 sudo mkdir -m 0755 -p /etc/apt/keyrings
 echo \
