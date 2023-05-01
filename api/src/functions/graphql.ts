@@ -4,6 +4,7 @@ import directives from 'src/directives/**/*.{js,ts}';
 import sdls from 'src/graphql/**/*.sdl.{js,ts}';
 import services from 'src/services/**/*.{js,ts}';
 
+import { isDevelopment } from 'src/consts/env';
 import { db } from 'src/lib/db';
 import { logger } from 'src/lib/logger';
 
@@ -13,7 +14,7 @@ export const handler = createGraphQLHandler({
   sdls,
   services,
   cors: {
-    origin: process.env.DOMAIN_NAME,
+    origin: isDevelopment ? '*' : `*${process.env.DOMAIN_NAME}`,
     credentials: true,
   },
   onException: () => {

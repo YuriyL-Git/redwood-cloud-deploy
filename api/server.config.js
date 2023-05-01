@@ -13,7 +13,6 @@
  */
 
 const isDevelopment = process.env.NODE_ENV === 'development';
-console.log('isDevelopment', isDevelopment);
 
 const { readFileSync } = require('fs');
 /** @type {import('fastify').FastifyServerOptions} */
