@@ -13,7 +13,7 @@ export const handler = createGraphQLHandler({
   sdls,
   services,
   cors: {
-    origin: '*',
+    origin: process.env.DOMAIN_NAME,
     credentials: true,
   },
   onException: () => {
