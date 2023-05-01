@@ -10,3 +10,4 @@ unzip ${backup_name}
 
 sudo rm -r /var/lib/docker/volumes/"${path_to_volume}"
 mv /home/db-backups/var/lib/docker/volumes/${path_to_volume} /var/lib/docker/volumes
+rm -r var
