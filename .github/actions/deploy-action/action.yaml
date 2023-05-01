@@ -98,7 +98,7 @@ runs:
                     sudo git config --global --add safe.directory /home/${{ inputs.vm-user-name }}/${{ github.event.repository.name }} &&
                     sudo mkdir -p /var/opt/pgbackups && sudo  chown -R 999:999 /var/opt/pgbackups &&
                     sudo git fetch --all &&
-                    sudo git reset --hard "origin/${{ inputs.build-branch-name }}\" &&
+                    sudo git reset --hard "origin/${{ inputs.build-branch-name }}" &&
                     sudo echo "${{ inputs.env-file }}" | base64 --decode | sudo tee .env &&
                     sudo echo "${{ inputs.https-certificate }}" | sudo tee https_certificate.crt &&
                     sudo echo "${{ inputs.https-key }}" | sudo tee https_key.key &&
