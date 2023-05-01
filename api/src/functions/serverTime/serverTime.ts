@@ -11,7 +11,10 @@ export const handler = async (event: APIGatewayEvent, _context: Context) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      data: 'serverTime function',
+      data: {
+        event,
+        _context,
+      },
     }),
   };
 };
