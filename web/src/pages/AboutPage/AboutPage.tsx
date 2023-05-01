@@ -10,7 +10,7 @@ const AboutPage = () => {
         This site was created to demonstrate my mastery of Redwood: Look on my
         works, ye mighty, and despair! docker test actions 2 branch name change
         zone3 458, new test prunefsf test 2 Master build NEW! test backups 2
-        test postgres test33
+        test postgres test33 crontest
       </p>
     </>
   );
