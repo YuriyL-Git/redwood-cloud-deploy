@@ -103,7 +103,7 @@ runs:
                     sudo echo "${{ inputs.https-key }}" | sudo tee https_key.key &&
                     sudo mkdir -p /home/db-backups  &&
                     sudo zip -r /home/db-backups/backup_$(date --utc +\%Y-\%m-\%d_\%H_\%M_\%S).zip  /var/lib/docker/volumes/${{ github.event.repository.name }}_pgdata &&
-                    sudo echo '* 12 * * *  sudo zip -r /home/db-backups/backup_$(date --utc +\%Y-\%m-\%d_\%H_\%M_\%S).zip  /var/lib/docker/volumes/${{ github.event.repository.name }}_pgdata' | crontab &&
+                    sudo echo '00 12 * * *  sudo zip -r /home/db-backups/backup_$(date --utc +\%Y-\%m-\%d_\%H_\%M_\%S).zip  /var/lib/docker/volumes/${{ github.event.repository.name }}_pgdata' | crontab &&
                     sudo docker-compose down --remove-orphans &&
                     sudo docker system prune -a -f &&
                     sudo docker-compose build --no-cache --pull api  &&
