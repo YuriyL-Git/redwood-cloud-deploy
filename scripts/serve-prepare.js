@@ -5,10 +5,10 @@ const encoding = 'utf8';
 
 setTimeout(async () => {
   clearPackageDependencies('package.json');
-  clearPackageDependencies('api/package.json', [
+  /*  clearPackageDependencies('api/package.json', [
     { package: '@redwoodjs/api', version: '4.4.3' },
     { package: '@redwoodjs/graphql-server', version: '4.4.3' },
-  ]);
+  ]);*/
 }, 0);
 
 async function clearPackageDependencies(pathToFile, dependencyKeys = []) {
