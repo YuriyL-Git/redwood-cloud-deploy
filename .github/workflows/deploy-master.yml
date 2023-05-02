@@ -1,0 +1,31 @@
+name: CI-CD-master
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/deploy-action
+        with:
+          env-file: ${{ secrets.ENV_FILE }}
+          gcp-credentials: ${{ secrets.GCP_CREDENTIALS }}
+          gcp-ssh-private-key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
+          https-certificate: ${{ secrets.HTTPS_SERTIFICATE }}
+          https-key: ${{ secrets.HTTPS_KEY }}
+
+          build-branch-name: master-build
+          subdomain-name: stage
+          instance_name: stage-server
+          zone: us-central1-a
+          vm-user-name: yuriy_lipchey_work
+
+
+
+
+
+
