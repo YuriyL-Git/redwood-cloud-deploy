@@ -20,7 +20,7 @@ jobs:
 
           build-branch-name: production-build
           # subdomain-name: master
-          instance_name: test-server
+          instance_name: production-server
           zone: us-central1-a
           vm-user-name: yuriy_lipchey_work
 

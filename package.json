@@ -7,7 +7,7 @@
     ]
   },
   "scripts": {
-    "start": "sudo kill -9 $(sudo lsof -t -i:8911) && DB_HOST_NAME=localhost API_URL=http://localhost:8911 APP_PORT=8910 yarn rw dev",
+    "start": "sudo kill -9 $(sudo lsof -t -i:8911) & DB_HOST_NAME=localhost API_URL=http://localhost:8911 APP_PORT=8910 yarn rw dev",
     "build": "yarn rw build",
     "upgrade": "yarn rw upgrade",
     "migrate": "DB_HOST_NAME=localhost yarn rw prisma migrate dev",
