@@ -8,8 +8,7 @@
 [web]
 title = "${APP_NAME}"
 port = "${APP_PORT}"
-host = "${DOMAIN_NAME}"
-apiUrl = "/api"
+apiUrl = "${API_URL}"
 includeEnvironmentVariables = []
 [api]
 port = "${API_PORT}"
