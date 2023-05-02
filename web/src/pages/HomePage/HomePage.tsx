@@ -9,11 +9,11 @@ import ArticlesCell from 'src/components/ArticlesCell';
 const HomePage = () => {
   const { isAuthenticated } = useAuth();
 
-  useEffect(() => {
+  /*  useEffect(() => {
     if (!isAuthenticated) {
       navigate(routes.signup());
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated]);*/
   return (
     <>
       <MetaTags title="Home" description="Home page" />
