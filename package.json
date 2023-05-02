@@ -7,7 +7,7 @@
     ]
   },
   "scripts": {
-    "start": "DB_HOST_NAME=localhost API_URL=/.redwood/functions APP_PORT=8910 yarn rw dev",
+    "start": "DB_HOST_NAME=localhost DOMAIN_NAME=localhost APP_PORT=8910 yarn rw dev",
     "build": "yarn rw build",
     "upgrade": "yarn rw upgrade",
     "migrate": "DB_HOST_NAME=localhost yarn rw prisma migrate dev",
