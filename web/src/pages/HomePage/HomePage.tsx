@@ -1,8 +1,19 @@
+import { useEffect } from 'react';
+
+import { navigate, routes } from '@redwoodjs/router';
 import { MetaTags } from '@redwoodjs/web';
 
+import { useAuth } from 'src/auth';
 import ArticlesCell from 'src/components/ArticlesCell';
 
 const HomePage = () => {
+  const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate(routes.signup());
+    }
+  }, [isAuthenticated]);
   return (
     <>
       <MetaTags title="Home" description="Home page" />
