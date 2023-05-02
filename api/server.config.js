@@ -23,10 +23,10 @@ const config = {
     // the default non-development level to `info`
     level: isDevelopment ? 'debug' : 'warn',
   },
-  https: !isDevelopment && {
+  /*  https: !isDevelopment && {
     key: readFileSync('./https_key.key'),
     cert: readFileSync('./https_certificate.crt'),
-  },
+  },*/
 };
 
 /**
