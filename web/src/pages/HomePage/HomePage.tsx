@@ -8,6 +8,7 @@ import ArticlesCell from 'src/components/ArticlesCell';
 
 const HomePage = () => {
   const { isAuthenticated } = useAuth();
+  console.log('isAuthenticated', isAuthenticated);
 
   /*  useEffect(() => {
     if (!isAuthenticated) {

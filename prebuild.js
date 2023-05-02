@@ -66,7 +66,7 @@ async function getEnvVariables() {
 }
 
 function updateRedwoodToml(fileContent, envObject) {
-  const keys = ['APP_PORT', 'API_PORT', 'APP_NAME', 'DOMAIN_NAME'];
+  const keys = ['APP_PORT', 'API_PORT', 'APP_NAME', 'API_URL'];
 
   let result = fileContent;
   for (const key of keys) {
