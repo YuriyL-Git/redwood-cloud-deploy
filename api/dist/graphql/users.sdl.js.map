@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/graphql/users.sdl.ts"],
+  "sourcesContent": ["export const schema = gql`\n  type User {\n    id: Int!\n    email: String!\n    name: String\n    hashedPassword: String!\n    salt: String!\n    resetToken: String\n    resetTokenExpiresAt: DateTime\n    isVerified: Boolean!\n    verificationToken: String\n    roles: [String]!\n    iss: String\n  }\n\n  type Query {\n    users: [User!]! @requireAuth\n    user(id: Int!): User @requireAuth\n  }\n\n  input CreateUserInput {\n    email: String!\n    name: String\n    hashedPassword: String!\n    salt: String!\n    resetToken: String\n    resetTokenExpiresAt: DateTime\n    isVerified: Boolean!\n    verificationToken: String\n    roles: [String]!\n    iss: String\n  }\n\n  input UpdateUserInput {\n    email: String\n    name: String\n    hashedPassword: String\n    salt: String\n    resetToken: String\n    resetTokenExpiresAt: DateTime\n    isVerified: Boolean\n    verificationToken: String\n    roles: [String]!\n    iss: String\n  }\n\n  type Mutation {\n    createUser(input: CreateUserInput!): User! @requireAuth\n    updateUser(id: Int!, input: UpdateUserInput!): User! @requireAuth\n    deleteUser(id: Int!): User! @requireAuth\n    verifyUser(token: String!): User! @skipAuth\n  }\n`;\n"],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;yBAAyB;AAAlB,MAAMA,SAASC,mBAAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+  "names": ["schema", "gql"]
+}

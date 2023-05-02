@@ -1,0 +1,109 @@
+[
+  {
+    "name": "app",
+    "id": 143,
+    "files": [
+      "/static/css/app.a529bded.css",
+      "/static/js/app.8216154f.js"
+    ],
+    "referencedChunks": [
+      838,
+      145,
+      629,
+      754,
+      134,
+      401,
+      102,
+      962,
+      604
+    ]
+  },
+  {
+    "name": "runtime-app",
+    "id": 838,
+    "files": [
+      "/static/js/runtime-app.0e6fc88d.js"
+    ],
+    "referencedChunks": [
+      143,
+      145,
+      629,
+      754,
+      134,
+      401,
+      102,
+      962,
+      604
+    ]
+  },
+  {
+    "name": "AboutPage",
+    "id": 145,
+    "files": [
+      "/static/js/AboutPage.13b1534f.chunk.js"
+    ],
+    "referencedChunks": []
+  },
+  {
+    "name": "ArticlePage",
+    "id": 629,
+    "files": [
+      "/static/js/ArticlePage.e95e5f78.chunk.js"
+    ],
+    "referencedChunks": []
+  },
+  {
+    "name": "NotFoundPage",
+    "id": 754,
+    "files": [
+      "/static/js/NotFoundPage.164d5056.chunk.js"
+    ],
+    "referencedChunks": []
+  },
+  {
+    "name": "PostEditPostPage",
+    "id": 134,
+    "files": [
+      "/static/js/PostEditPostPage.30a15003.chunk.js"
+    ],
+    "referencedChunks": []
+  },
+  {
+    "name": "PostNewPostPage",
+    "id": 401,
+    "files": [
+      "/static/js/PostNewPostPage.3d565718.chunk.js"
+    ],
+    "referencedChunks": []
+  },
+  {
+    "name": "PostPostPage",
+    "id": 962,
+    "files": [
+      "/static/js/PostPostPage.12f36c94.chunk.js"
+    ],
+    "referencedChunks": [
+      102
+    ]
+  },
+  {
+    "name": "PostPostsPage",
+    "id": 604,
+    "files": [
+      "/static/js/PostPostsPage.3e3ad21f.chunk.js"
+    ],
+    "referencedChunks": [
+      102
+    ]
+  },
+  {
+    "id": 102,
+    "files": [
+      "/static/js/102.41a2af4d.chunk.js"
+    ],
+    "referencedChunks": [
+      962,
+      604
+    ]
+  }
+]

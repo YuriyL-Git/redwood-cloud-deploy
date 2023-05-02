@@ -1,0 +1,121 @@
+name: 'Build'
+description: 'Build branch action'
+inputs:
+  subdomain-name:
+    required: false
+    description: 'Subdomain name for build'
+  build-branch-name:
+    required: true
+    description: 'Branch name to push build files to'
+  env-file:
+    required: true
+    description: 'Env file'
+  gcp-credentials:
+    required: true
+    description: 'Google service account json credentials file'
+  gcp-ssh-private-key:
+    required: true
+    description: 'Google virtual machine ssh private key'
+  vm-user-name:
+    required: true
+    description: 'Virtual machine user name'
+  instance_name:
+    required: true
+    description: 'Virtual machine instance name'
+  zone:
+    required: true
+    description: 'Virtual machine zone'
+  https-certificate:
+    required: true
+    description: 'Https certificate file content'
+  https-key:
+    required: true
+    description: 'Https key file content'
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+    - name: Create env file
+      shell: bash
+      run: |
+        echo "${{ inputs.env-file }}" | base64 --decode > .env
+
+    - name: Run prebuild
+      shell: bash
+      run: node prebuild.js
+
+    - name: Run install
+      shell: bash
+      run: yarn install --immutable
+
+    - name: Run Build
+      shell: bash
+      run: yarn rw build
+
+    - name: Copy build files to deploy branch
+      shell: bash
+      run: mkdir -p build/{api,web} &&
+        mv api build &&
+        mv web build &&
+        cp -r .github build &&
+        cp yarn.lock build &&
+        cp -r scripts build &&
+
+        git checkout HEAD -- redwood.toml &&
+        git checkout HEAD -- web/nginx.conf &&
+        git fetch --all &&
+        git checkout ${{ inputs.build-branch-name}} &&
+        node scripts/setup-gitignore.js &&
+        rm -rf .github &&
+        rm -rf api &&
+        rm -rf web &&
+        rm -rf scripts &&
+        rm yarn.lock &&
+
+        mv build/yarn.lock . &&
+        mv build/api . &&
+        mv build/web . &&
+        mv build/scripts . &&
+        mv build/.github . &&
+
+        rm -rf build &&
+        rm -rf api/src &&
+        rm -rf web/src
+
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: build
+        skip_dirty_check: true
+        commit_options: '--amend --no-edit'
+        branch: ${{ inputs.build-branch-name }}
+        push_options: '--force'
+
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ inputs.gcp-credentials }}'
+    - id: 'compute-ssh'
+      uses: 'google-github-actions/ssh-compute@v0'
+      with:
+        instance_name: '${{ inputs.instance_name }}'
+        zone: '${{ inputs.zone }}'
+        ssh_private_key: '${{ inputs.gcp-ssh-private-key }}'
+        command: cd /home/${{ inputs.vm-user-name }}/${{ github.event.repository.name }} &&
+                    sudo git config --global --add safe.directory /home/${{ inputs.vm-user-name }}/${{ github.event.repository.name }} &&
+                    sudo mkdir -p /var/lib/docker/volumes/${{ github.event.repository.name }}_pgdata && sudo zip -r /home/db-backups/backup_$(date --utc +\%Y-\%m-\%d_\%H_\%M_\%S).zip  /var/lib/docker/volumes/${{ github.event.repository.name }}_pgdata &&
+                    sudo git fetch --all &&
+                    sudo git reset --hard "origin/${{ inputs.build-branch-name }}" &&
+                    sudo echo "${{ inputs.env-file }}" | base64 --decode | sudo tee .env &&
+                    sudo node scripts/update-env.js ${{ inputs.subdomain-name }} &&
+                    sudo echo "${{ inputs.https-certificate }}" | sudo tee https_certificate.crt &&
+                    sudo echo "${{ inputs.https-key }}" | sudo tee https_key.key &&
+                    sudo docker-compose down --remove-orphans &&
+                    sudo docker system prune -a -f &&
+                    sudo docker-compose build --no-cache --pull api  &&
+                    sudo docker-compose build --no-cache --pull web  &&
+                    sudo docker-compose up -d &&
+                    sudo mkdir -p /home/db-backups  &&
+                    sudo echo '00 12 * * *  sudo zip -r /home/db-backups/backup_$(date --utc +\%Y-\%m-\%d_\%H_\%M_\%S).zip  /var/lib/docker/volumes/${{ github.event.repository.name }}_pgdata' | crontab
+
+
+
