@@ -142,10 +142,10 @@ export const handler = async (
   const authHandler = new DbAuthHandler(event, context, {
     // Provide prisma db client
     db: db,
-    /* cors: {
+    cors: {
       origin: isDevelopment ? '*' : `*${process.env.DOMAIN_NAME}`,
-      credentials: true,
-    },*/
+      credentials: false,
+    },
 
     // The name of the property you'd call on `db` to access your user table.
     // i.e. if your Prisma model is named `User` this value would be `user`, as in `db.user`
