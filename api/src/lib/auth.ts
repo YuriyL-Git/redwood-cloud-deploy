@@ -21,6 +21,7 @@ import { db } from './db';
  * seen if someone were to open the Web Inspector in their browser.
  */
 export const getCurrentUser = async (session: Decoded) => {
+  console.log('GET CURR USER');
   if (!session || typeof session.id !== 'number') {
     throw new Error('Invalid session');
   }
@@ -39,7 +40,6 @@ export const getCurrentUser = async (session: Decoded) => {
  * @returns {boolean} - If the currentUser is authenticated
  */
 export const isAuthenticated = (): boolean => {
-  console.log('isAuthenticated', !!context.currentUser);
   return !!context.currentUser;
 };
 

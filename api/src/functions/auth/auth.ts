@@ -56,8 +56,6 @@ export const handler = async (
     // by the `logIn()` function from `useAuth()` in the form of:
     // `{ message: 'Error message' }`
     handler: (user) => {
-      console.log('HANDLER USER');
-      console.log('USER', user);
       return user;
     },
 
