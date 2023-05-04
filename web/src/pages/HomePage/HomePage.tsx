@@ -7,29 +7,28 @@ import { useAuth } from 'src/auth';
 import ArticlesCell from 'src/components/ArticlesCell';
 
 const HomePage = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, logOut, currentUser } = useAuth();
   console.log('isAuthenticated', isAuthenticated);
-
-  /*  useEffect(() => {
+  useEffect(() => {
     if (!isAuthenticated) {
-      navigate(routes.signup());
+      navigate(routes.login());
     }
-  }, [isAuthenticated]);*/
+  }, [isAuthenticated]);
+
   return (
     <>
       <MetaTags title="Home" description="Home page" />
       <ArticlesCell />
-      <button
-        onClick={() => {
-          fetch(
-            'https://stage.redwoodtest.pp.ua:8911/serverTime/fdsfsdfsdffdsfsfsdfsfsdfsdfdsfsdfsdfdsfdsfsdfsfsfs'
-          ).then((res) => {
-            console.log(res);
-          });
+      <div
+        style={{
+          marginTop: '20px',
         }}
       >
-        Test Api
-      </button>
+        {isAuthenticated
+          ? `User: ${currentUser.email}`
+          : 'User is not logged in'}
+      </div>
+      <button onClick={logOut}>Logout</button>
     </>
   );
 };
