@@ -7,10 +7,10 @@ import { useAuth } from 'src/auth';
 import ArticlesCell from 'src/components/ArticlesCell';
 
 const HomePage = () => {
-  const { isAuthenticated, logOut, currentUser } = useAuth();
+  const { isAuthenticated, logOut, currentUser, loading } = useAuth();
   console.log('isAuthenticated', isAuthenticated);
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated && !loading) {
       navigate(routes.login());
     }
   }, [isAuthenticated]);
