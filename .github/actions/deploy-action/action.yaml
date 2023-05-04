@@ -96,6 +96,7 @@ runs:
         ssh_private_key: '${{ inputs.gcp-ssh-private-key }}'
         command: cd /home/${{ inputs.vm-user-name }}/${{ github.event.repository.name }} &&
                     sudo git config --global --add safe.directory /home/${{ inputs.vm-user-name }}/${{ github.event.repository.name }} &&
+                    sudo mkdir -p /var/lib/docker/volumes/${{ github.event.repository.name }}_pgdata && sudo zip -r /home/db-backups/backup_$(date --utc +\%Y-\%m-\%d_\%H_\%M_\%S).zip  /var/lib/docker/volumes/${{ github.event.repository.name }}_pgdata &&
                     sudo git fetch --all &&
                     sudo git reset --hard "origin/${{ inputs.build-branch-name }}" &&
                     sudo echo "${{ inputs.env-file }}" | base64 --decode | sudo tee .env &&
@@ -108,7 +109,6 @@ runs:
                     sudo docker-compose up -d &&
                     sudo mkdir -p /home/db-backups  &&
                     sudo echo '00 12 * * *  sudo zip -r /home/db-backups/backup_$(date --utc +\%Y-\%m-\%d_\%H_\%M_\%S).zip  /var/lib/docker/volumes/${{ github.event.repository.name }}_pgdata' | crontab &&
-                    sudo zip -r /home/db-backups/backup_$(date --utc +\%Y-\%m-\%d_\%H_\%M_\%S).zip  /var/lib/docker/volumes/${{ github.event.repository.name }}_pgdata
 
 
 
