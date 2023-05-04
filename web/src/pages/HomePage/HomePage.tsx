@@ -13,7 +13,7 @@ const HomePage = () => {
     if (!isAuthenticated && !loading) {
       navigate(routes.login());
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, loading]);
 
   return (
     <>
