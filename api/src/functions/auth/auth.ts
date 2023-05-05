@@ -144,7 +144,7 @@ export const handler = async (
     db: db,
     cors: {
       origin: isDevelopment ? '*' : `*${process.env.DOMAIN_NAME}`,
-      credentials: true,
+      credentials: false,
     },
 
     // The name of the property you'd call on `db` to access your user table.
