@@ -58,6 +58,7 @@ runs:
         mv api build &&
         mv web build &&
         cp -r .github build &&
+        cp yarn.lock build &&
 
         git checkout HEAD -- redwood.toml &&
         git checkout HEAD -- web/nginx.conf &&
@@ -67,7 +68,9 @@ runs:
         rm -rf .github &&
         rm -rf api &&
         rm -rf web &&
-
+        rm yarn.lock &&
+        
+        mv build/yarn.lock . &&
         mv build/api . &&
         mv build/web . &&
         mv build/.github . &&

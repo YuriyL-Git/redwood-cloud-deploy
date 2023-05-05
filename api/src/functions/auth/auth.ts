@@ -144,7 +144,7 @@ export const handler = async (
     db: db,
     cors: {
       origin: isDevelopment ? '*' : `*${process.env.DOMAIN_NAME}`,
-      credentials: false,
+      credentials: true,
     },
 
     // The name of the property you'd call on `db` to access your user table.
@@ -168,12 +168,12 @@ export const handler = async (
     cookie: {
       HttpOnly: true,
       Path: '/',
-      // SameSite: 'Strict',
-      Secure: process.env.NODE_ENV !== 'development',
+      SameSite: 'Strict',
+      Secure: !isDevelopment,
 
       // If you need to allow other domains (besides the api side) access to
       // the dbAuth session cookie:
-      Domain: `${process.env.DOMAIN_NAME}`,
+      Domain: isDevelopment ? 'localhost' : '',
     },
 
     forgotPassword: forgotPasswordOptions,

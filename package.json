@@ -17,8 +17,8 @@
     "env-generate": "cat .env | base64 -w 0 > env.txt "
   },
   "devDependencies": {
-    "@redwoodjs/auth-dbauth-setup": "5.0.3",
-    "@redwoodjs/core": "5.0.3"
+    "@redwoodjs/auth-dbauth-setup": "5.0.5",
+    "@redwoodjs/core": "5.0.5"
   },
   "eslintConfig": {
     "extends": ".eslintrc.js",
