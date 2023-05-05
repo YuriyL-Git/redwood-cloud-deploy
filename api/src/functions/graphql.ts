@@ -18,7 +18,7 @@ export const handler = createGraphQLHandler({
   sdls,
   services,
   cors: {
-    origin: isDevelopment ? '*' : `*${process.env.DOMAIN_NAME}`,
+    origin: isDevelopment ? '*' : `*.${process.env.DOMAIN_NAME}`,
     credentials: true,
   },
   onException: () => {

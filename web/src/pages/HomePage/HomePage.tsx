@@ -8,8 +8,11 @@ import ArticlesCell from 'src/components/ArticlesCell';
 
 const HomePage = () => {
   const { isAuthenticated, logOut, currentUser, loading } = useAuth();
-  console.log('isAuthenticated', isAuthenticated);
+
   useEffect(() => {
+    fetch('/api/uploadFile').then((res) => {
+      res.json().then((res) => console.log('Res =', res));
+    });
     if (!isAuthenticated && !loading) {
       navigate(routes.login());
     }

@@ -1,4 +1,7 @@
+import { APIGatewayEvent } from 'aws-lambda';
+
 import type { Decoded } from '@redwoodjs/api';
+import { dbAuthSession } from '@redwoodjs/auth-dbauth-api';
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server';
 
 import { db } from './db';
@@ -21,7 +24,6 @@ import { db } from './db';
  * seen if someone were to open the Web Inspector in their browser.
  */
 export const getCurrentUser = async (session: Decoded) => {
-  console.log('GET CURR USER');
   if (!session || typeof session.id !== 'number') {
     throw new Error('Invalid session');
   }
@@ -30,7 +32,6 @@ export const getCurrentUser = async (session: Decoded) => {
     where: { id: session.id },
     select: { id: true, email: true },
   });
-  console.log('RESULT=', result);
   return result;
 };
 
@@ -41,6 +42,15 @@ export const getCurrentUser = async (session: Decoded) => {
  */
 export const isAuthenticated = (): boolean => {
   return !!context.currentUser;
+};
+
+export const authApi = async (event: APIGatewayEvent) => {
+  const user = await getCurrentUser(dbAuthSession(event));
+
+  return {
+    isAuthenticated: !!user.id,
+    user,
+  };
 };
 
 /**
