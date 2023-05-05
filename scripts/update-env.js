@@ -12,11 +12,9 @@ async function updateEnvFile() {
   const subDomainName = process.argv[2];
   const envData = await fs.readFile(envFile, encoding);
   if (subDomainName && subDomainName !== 'production') {
-    const replaceText = subDomainName === 'master' ? 'stage' : subDomainName;
-
     const result = envData.replace(
       'DOMAIN_NAME=',
-      `DOMAIN_NAME=${replaceText}.`
+      `DOMAIN_NAME=${subDomainName}.`
     );
     fs.writeFile(envFile, result, encoding);
   }
