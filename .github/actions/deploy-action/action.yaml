@@ -103,6 +103,7 @@ runs:
                     sudo git fetch --all &&
                     sudo git reset --hard "origin/${{ inputs.build-branch-name }}" &&
                     sudo echo "${{ inputs.env-file }}" | base64 --decode | sudo tee .env &&
+                    sudo node scripts/update-env.js ${{ inputs.build-branch-name }} &&
                     sudo echo "${{ inputs.https-certificate }}" | sudo tee https_certificate.crt &&
                     sudo echo "${{ inputs.https-key }}" | sudo tee https_key.key &&
                     sudo docker-compose down --remove-orphans &&
