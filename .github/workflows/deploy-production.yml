@@ -19,7 +19,7 @@ jobs:
           https-key: ${{ secrets.HTTPS_KEY }}
 
           build-branch-name: production-build
-          # subdomain-name: master
+          # subdomain-name: don't need to set for prod build!!
           instance_name: production-server
           zone: europe-central2-a
           vm-user-name: yuriy_lipchey_work
