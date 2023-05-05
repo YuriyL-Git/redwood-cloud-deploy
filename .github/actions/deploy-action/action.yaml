@@ -69,7 +69,7 @@ runs:
         rm -rf api &&
         rm -rf web &&
         rm yarn.lock &&
-        
+
         mv build/yarn.lock . &&
         mv build/api . &&
         mv build/web . &&
