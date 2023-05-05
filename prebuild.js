@@ -1,6 +1,5 @@
 /* eslint-disable */
 const fs = require('fs').promises;
-const subdomainName = process.argv[2];
 
 const redwoodTomlFile = 'redwood.toml';
 const nginxFile = 'web/nginx.conf';
@@ -28,15 +27,6 @@ async function getEnvVariables() {
     .map((line) => line.trim())
     .filter((line) => line.length > 0 && !line.startsWith('#'));
 
-  const domainNameIndex = lines.findIndex((line) =>
-    line.includes('DOMAIN_NAME')
-  );
-  const [domainNameKey, domainName] = lines[domainNameIndex].split('=');
-
-  if (subdomainName) {
-    lines[domainNameIndex] = `${domainNameKey}=${subdomainName}.${domainName}`;
-  }
-
   const linesWithValuesApplied = lines.map((line) => {
     let currentLine = line;
 
@@ -55,14 +45,11 @@ async function getEnvVariables() {
     return currentLine;
   });
 
-  const result = linesWithValuesApplied.reduce((acc, curr) => {
+  return linesWithValuesApplied.reduce((acc, curr) => {
     const [key, value] = curr.split('=');
     acc[key] = value;
     return acc;
   }, {});
-
-  result['domainName'] = domainName;
-  return result;
 }
 
 function updateRedwoodToml(fileContent, envObject) {
