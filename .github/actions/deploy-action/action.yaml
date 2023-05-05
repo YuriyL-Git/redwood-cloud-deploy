@@ -69,6 +69,7 @@ runs:
         rm -rf .github &&
         rm -rf api &&
         rm -rf web &&
+        rm -rf scripts &&
         rm yarn.lock &&
 
         mv build/yarn.lock . &&
