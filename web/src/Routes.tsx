@@ -27,18 +27,20 @@ const Routes = () => {
       <Route path="/signup" page={SignupPage} name="signup" />
       <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
       <Route path="/reset-password/{resetToken}" page={ResetPasswordPage} name="resetPassword" />
-      <Set wrap={ScaffoldLayout} title="Posts" titleTo="posts" buttonLabel="New Post" buttonTo="newPost">
+      <Route notfound page={NotFoundPage} />
+
+      <Set wrap={ScaffoldLayout} title="Posts" titleTo="posts" buttonLabel="New Post" buttonTo="newPost" private={true} unauthenticated="login">
         <Route path="/posts/new" page={PostNewPostPage} name="newPost" />
         <Route path="/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />
         <Route path="/posts/{id:Int}" page={PostPostPage} name="post" />
         <Route path="/posts" page={PostPostsPage} name="posts" />
       </Set>
-      <Set wrap={BlogLayout}>
+
+      <Set wrap={BlogLayout} private={true} unauthenticated="login">
         <Route path="/article/{id:Int}" page={ArticlePage} name="article" />
         <Route path="/about" page={AboutPage} name="about" />
         <Route path="/" page={HomePage} name="home" />
       </Set>
-      <Route notfound page={NotFoundPage} />
     </Router>
   );
 };
