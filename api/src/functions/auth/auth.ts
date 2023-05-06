@@ -1,4 +1,7 @@
+import { randomUUID } from 'node:crypto';
+
 import type { APIGatewayProxyEvent, Context } from 'aws-lambda';
+import { User } from 'types/graphql';
 
 import {
   DbAuthHandler,
@@ -7,12 +10,13 @@ import {
 
 import { isDevelopment } from 'src/consts/env';
 import { db } from 'src/lib/db';
+import { sendMail } from 'src/lib/nodemailer/nodemailer';
+import { user } from 'src/services/users/users';
 
 export const handler = async (
   event: APIGatewayProxyEvent,
   context: Context
 ) => {
-  console.log('HANDLER');
   const forgotPasswordOptions: DbAuthHandlerOptions['forgotPassword'] = {
     // handler() is invoked after verifying that a user was found with the given
     // username. This is where you can send the user an email with a link to
@@ -55,8 +59,12 @@ export const handler = async (
     // didn't validate their email yet), throw an error and it will be returned
     // by the `logIn()` function from `useAuth()` in the form of:
     // `{ message: 'Error message' }`
-    handler: (user) => {
-      console.log('USER = ', user);
+    handler: (user: User) => {
+      console.log('IS VERIFIED =', user.isVerified);
+      if (!user.isVerified) {
+        throw new Error('User e-mail is not verified!');
+      }
+
       return user;
     },
 
@@ -114,15 +122,27 @@ export const handler = async (
     // If this returns anything else, it will be returned by the
     // `signUp()` function in the form of: `{ message: 'String here' }`.
 
-    handler: ({ username, hashedPassword, salt, userAttributes }) => {
-      return db.user.create({
+    handler: async ({ username, hashedPassword, salt, userAttributes }) => {
+      const verificationToken = randomUUID();
+
+      await db.user.create({
         data: {
           email: username,
           hashedPassword: hashedPassword,
           salt: salt,
+          verificationToken,
           // name: userAttributes.name
         },
       });
+
+      sendMail({
+        from: process.env.DOMAIN_NAME,
+        subject: 'Verification link',
+        receivers: [username],
+        htmlBody: `<a href="https://${process.env.DOMAIN_NAME}/verification/${verificationToken}">Click here to verify Your e-mail</a>`,
+      });
+
+      return 'Please confirm your e-mail to be able to login';
     },
 
     // Include any format checks for password here. Return `true` if the

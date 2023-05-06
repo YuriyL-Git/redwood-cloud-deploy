@@ -17,10 +17,12 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage/ForgotPasswordPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import ResetPasswordPage from './pages/ResetPasswordPage/ResetPasswordPage';
 import SignupPage from './pages/SignupPage/SignupPage';
+import VerificationPage from './pages/VerificationPage/VerificationPage';
 
 const Routes = () => {
   return (
     <Router useAuth={useAuth}>
+      <Route path="/verification/{token}" page={VerificationPage} name="verification" />
       <Route path="/login" page={LoginPage} name="login" />
       <Route path="/signup" page={SignupPage} name="signup" />
       <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />

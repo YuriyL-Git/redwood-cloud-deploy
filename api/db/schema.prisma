@@ -8,9 +8,6 @@ generator client {
   binaryTargets = ["native", "linux-musl", "debian-openssl-1.1.x"]
 }
 
-// Define your own datamodels here and run `yarn redwood prisma migrate dev`
-// to create migrations for them and apply to your dev DB.
-// TODO: Please remove the following example:
 model User {
   id                  Int       @id @default(autoincrement())
   email               String    @unique
@@ -19,6 +16,9 @@ model User {
   salt                String
   resetToken          String?
   resetTokenExpiresAt DateTime?
+  isVerified          Boolean   @default(false)
+  verificationToken   String?
+  roles               String[]  @default(["USER"])
 }
 
 model Post {
