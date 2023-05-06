@@ -30,7 +30,13 @@ export const handler = async (
     // You could use this return value to, for example, show the email
     // address in a toast message so the user will know it worked and where
     // to look for the email.
-    handler: (user) => {
+    handler: (user: User) => {
+      sendMail({
+        from: process.env.DOMAIN_NAME,
+        subject: 'Reset password link',
+        receivers: [user.email],
+        htmlBody: `<a href="https://${process.env.DOMAIN_NAME}/reset-password/${user.resetToken}">Click here to reset Your password</a>`,
+      });
       return user;
     },
 
