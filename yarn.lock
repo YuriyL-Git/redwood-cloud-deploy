@@ -7932,6 +7932,7 @@ __metadata:
     "@redwoodjs/api": 5.0.5
     "@redwoodjs/auth-dbauth-api": 5.0.5
     "@redwoodjs/graphql-server": 5.0.5
+    nodemailer: ^6.9.1
   languageName: unknown
   linkType: soft
 
@@ -18071,6 +18072,13 @@ __metadata:
   version: 2.0.10
   resolution: "node-releases@npm:2.0.10"
   checksum: 90947653e8e3d85bda4bcbf28d019693ccfb5d5947838ca64e91208b51d7bfc13ba930b8216389a4faffbad8145b2c616bf1f7a09c97a1a9ac57fd6ef6d01c5c
+  languageName: node
+  linkType: hard
+
+"nodemailer@npm:^6.9.1":
+  version: 6.9.1
+  resolution: "nodemailer@npm:6.9.1"
+  checksum: adeaef441e31025776e8b1fa818e4b260850fbb60150f6ff7210e4de443bb32f0881a8a4967c42bb108d620f68f18369a42db29fe7cdec5e4ec09b0ddd51b19c
   languageName: node
   linkType: hard
 
