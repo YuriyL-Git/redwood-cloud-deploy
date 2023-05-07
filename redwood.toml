@@ -9,7 +9,11 @@
 title = "${APP_NAME}"
 port = 8910
 apiUrl = "/api"
-includeEnvironmentVariables = []
+includeEnvironmentVariables = [
+  "AUTH0_DOMAIN",
+  "AUTH0_CLIENT_ID",
+  "AUTH0_AUDIENCE"
+]
 [api]
 port = "${API_PORT}"
 [browser]

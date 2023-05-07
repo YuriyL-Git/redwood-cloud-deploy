@@ -5,9 +5,11 @@ import { createAuth } from '@redwoodjs/auth-auth0-web';
 const auth0 = new Auth0Client({
   domain: process.env.AUTH0_DOMAIN || '',
   clientId: process.env.AUTH0_CLIENT_ID || '',
+
   authorizationParams: {
-    redirect_uri: process.env.AUTH0_REDIRECT_URI,
+    redirect_uri: window.location.origin,
     audience: process.env.AUTH0_AUDIENCE,
+    scope: 'openid profile email user_metadata given_name',
   },
 
   // Storing tokens in the browser's local storage provides persistence across page refreshes and browser tabs.

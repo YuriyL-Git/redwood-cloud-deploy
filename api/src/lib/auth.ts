@@ -25,16 +25,58 @@ import { db } from './db';
  * fields to the `select` object below once you've decided they are safe to be
  * seen if someone were to open the Web Inspector in their browser.
  */
-export const getCurrentUser = async (session: Decoded) => {
-  if (!session || typeof session.id !== 'number') {
+export const getCurrentUser = async (
+  session: Decoded,
+  params?: {
+    schema: string;
+    token: string;
+  }
+) => {
+  if (!session) {
     throw new Error('Invalid session');
   }
 
-  const result = await db.user.findUnique({
-    where: { id: session.id },
-    select: { id: true, email: true, roles: true },
+  // dbAuth
+  if (typeof session.id === 'number') {
+    return db.user.findUnique({
+      where: { id: session.id },
+      select: { id: true, email: true, roles: true },
+    });
+  }
+
+  // Auth0
+  const response = await fetch(`${session.iss}userinfo`, {
+    method: 'GET',
+    headers: new Headers({
+      Authorization: `Bearer ${params.token}`,
+    }),
   });
-  return result;
+
+  const userData = await response.json();
+
+  const userEmail = userData.email;
+
+  if (userEmail) {
+    const result = await db.user.findUnique({
+      where: { email: userEmail },
+      select: { id: true, email: true, roles: true },
+    });
+
+    if (result) {
+      return result;
+    }
+  } else {
+    throw new Error('User email not found');
+  }
+
+  return db.user.create({
+    data: {
+      email: userEmail,
+      isVerified: true,
+      hashedPassword: '',
+      salt: '',
+    },
+  });
 };
 
 /**

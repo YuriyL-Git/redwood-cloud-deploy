@@ -27,17 +27,18 @@ export const getProvider = (providerType: AuthProviderTypes) => {
     .provider;
 };
 
+export const { AuthProvider, useAuth } = getProvider(AuthProviderTypes.Auth0);
+
+/*
 export const useAuth = () => {
   const { currProviderType } = useTypedSelector((state) => state.auth);
   const AuthProvider = getProvider(currProviderType);
-  const { hasRole, ...authProps } = AuthProvider.useAuth();
+  /!*   const { hasRole, ...authProps } = AuthProvider.useAuth();
 
   const hasRoleWithType = (roles: AllowedRoles) => {
     return hasRole(roles);
-  };
+  };*!/
 
-  return {
-    ...authProps,
-    hasRole: hasRoleWithType,
-  };
+  return AuthProvider.useAuth;
 };
+*/

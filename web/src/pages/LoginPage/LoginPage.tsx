@@ -17,8 +17,6 @@ import { useAuth } from 'src/auth/auth';
 
 const LoginPage = () => {
   const { isAuthenticated, logIn, currentUser } = useAuth();
-  console.log('isAuthenticated', isAuthenticated);
-  console.log('currentUser', currentUser);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -45,6 +43,10 @@ const LoginPage = () => {
       console.log('response', response);
       toast.success('Welcome back!');
     }
+  };
+
+  const loginWithOauth0 = () => {
+    logIn();
   };
 
   return (
@@ -122,6 +124,7 @@ const LoginPage = () => {
               </div>
             </div>
           </div>
+          <button onClick={loginWithOauth0}>Login with oauth0</button>
           <div className="rw-login-link">
             <span>Don&apos;t have an account?</span>{' '}
             <Link to={routes.signup()} className="rw-link">

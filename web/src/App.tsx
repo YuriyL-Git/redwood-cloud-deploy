@@ -11,7 +11,7 @@ import store from 'src/store';
 
 import { AuthProviderTypes } from '../../shared/types';
 
-import { getProvider, useAuth } from './auth/auth';
+import { getProvider, useAuth, AuthProvider } from './auth/auth';
 
 import './scaffold.css';
 
@@ -19,10 +19,10 @@ import './index.css';
 
 const App = () => {
   const [currProviderType, setCurrProviderType] = useState<AuthProviderTypes>(
-    AuthProviderTypes.DbAuth
+    AuthProviderTypes.Auth0
   );
 
-  const { AuthProvider } = getProvider(currProviderType);
+  //const { AuthProvider } = getProvider(currProviderType);
 
   return (
     <Provider store={store}>
