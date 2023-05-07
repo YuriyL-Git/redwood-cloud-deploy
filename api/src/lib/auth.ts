@@ -6,7 +6,7 @@ import { authDecoder as auth0Decoder } from '@redwoodjs/auth-auth0-api/dist/deco
 import { dbAuthSession } from '@redwoodjs/auth-dbauth-api';
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server';
 
-import { AllowedRoles, AuthProviderTypes } from '../../../shared/types';
+import { AllowedRoles } from '../../../shared/types';
 
 import { db } from './db';
 
@@ -27,6 +27,12 @@ import { db } from './db';
  * fields to the `select` object below once you've decided they are safe to be
  * seen if someone were to open the Web Inspector in their browser.
  */
+
+enum AuthProviderTypes {
+  DbAuth = 'DbAuth',
+  Auth0 = 'Auth0',
+}
+
 export const getCurrentUser = async (
   session: Decoded,
   params?: {
@@ -118,12 +124,6 @@ export const authApi = async (event: APIGatewayEvent, context: Context) => {
 
   const authType = event.headers.authtype as AuthProviderTypes;
   let session: Record<string, any>;
-  console.log('authType', authType);
-
-  console.log(
-    'authType === AuthProviderTypes.Auth0',
-    authType === AuthProviderTypes.Auth0
-  );
 
   if (authType === AuthProviderTypes.Auth0) {
     session = await auth0Decoder(token, 'auth0', { event, context });
@@ -131,7 +131,10 @@ export const authApi = async (event: APIGatewayEvent, context: Context) => {
     session = dbAuthSession(event);
   }
 
-  const user = await getCurrentUser(session);
+  const user = await getCurrentUser(session, {
+    schema: 'Bearer',
+    token,
+  });
 
   return {
     isAuthenticated: !!user.id,
