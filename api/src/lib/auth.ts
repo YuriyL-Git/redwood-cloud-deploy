@@ -1,10 +1,12 @@
-import { APIGatewayEvent } from 'aws-lambda';
+import { APIGatewayEvent, Context } from 'aws-lambda';
+import { User } from 'types/graphql';
 
 import type { Decoded } from '@redwoodjs/api';
+import { authDecoder as auth0Decoder } from '@redwoodjs/auth-auth0-api/dist/decoder';
 import { dbAuthSession } from '@redwoodjs/auth-dbauth-api';
 import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server';
 
-import { AllowedRoles } from '../../../shared/types';
+import { AllowedRoles, AuthProviderTypes } from '../../../shared/types';
 
 import { db } from './db';
 
@@ -36,15 +38,38 @@ export const getCurrentUser = async (
     throw new Error('Invalid session');
   }
 
-  // dbAuth
+  const selectedFields: Partial<Record<keyof User, boolean>> = {
+    id: true,
+    email: true,
+    roles: true,
+  };
+
+  // dbAuth ------------------------------------------------------------
   if (typeof session.id === 'number') {
     return db.user.findUnique({
       where: { id: session.id },
-      select: { id: true, email: true, roles: true },
+      select: selectedFields,
     });
   }
 
-  // Auth0
+  // Auth0---------------------------------------------------------------
+
+  //sub is Auth0 user id
+  const userIss = session.sub as string;
+
+  if (userIss) {
+    const result = await db.user.findFirst({
+      where: { iss: userIss },
+      select: selectedFields,
+    });
+
+    if (result) {
+      return result;
+    }
+  } else {
+    throw new Error('User iss not found');
+  }
+
   const response = await fetch(`${session.iss}userinfo`, {
     method: 'GET',
     headers: new Headers({
@@ -53,13 +78,12 @@ export const getCurrentUser = async (
   });
 
   const userData = await response.json();
-
   const userEmail = userData.email;
 
   if (userEmail) {
     const result = await db.user.findUnique({
       where: { email: userEmail },
-      select: { id: true, email: true, roles: true },
+      select: selectedFields,
     });
 
     if (result) {
@@ -72,6 +96,7 @@ export const getCurrentUser = async (
   return db.user.create({
     data: {
       email: userEmail,
+      iss: userIss as string,
       isVerified: true,
       hashedPassword: '',
       salt: '',
@@ -88,8 +113,25 @@ export const isAuthenticated = (): boolean => {
   return !!context.currentUser;
 };
 
-export const authApi = async (event: APIGatewayEvent) => {
-  const user = await getCurrentUser(dbAuthSession(event));
+export const authApi = async (event: APIGatewayEvent, context: Context) => {
+  const [, token] = event.headers.authorization.split(' ');
+
+  const authType = event.headers.authtype as AuthProviderTypes;
+  let session: Record<string, any>;
+  console.log('authType', authType);
+
+  console.log(
+    'authType === AuthProviderTypes.Auth0',
+    authType === AuthProviderTypes.Auth0
+  );
+
+  if (authType === AuthProviderTypes.Auth0) {
+    session = await auth0Decoder(token, 'auth0', { event, context });
+  } else {
+    session = dbAuthSession(event);
+  }
+
+  const user = await getCurrentUser(session);
 
   return {
     isAuthenticated: !!user.id,

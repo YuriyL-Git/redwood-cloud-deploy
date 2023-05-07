@@ -10,6 +10,7 @@ generator client {
 
 model User {
   id                  Int       @id @default(autoincrement())
+  iss                 String    @default("")
   email               String    @unique
   name                String?
   hashedPassword      String

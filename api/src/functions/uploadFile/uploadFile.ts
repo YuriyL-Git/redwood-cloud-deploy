@@ -6,7 +6,7 @@ import { logger } from 'src/lib/logger';
 export const handler = async (event: APIGatewayEvent, context: Context) => {
   logger.info(`${event.httpMethod} ${event.path}: uploadFile function`);
 
-  const { user } = await authApi(event);
+  const { user } = await authApi(event, context);
   console.log('user ->', user);
 
   return {

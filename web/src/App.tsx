@@ -11,7 +11,7 @@ import store from 'src/store';
 
 import { AuthProviderTypes } from '../../shared/types';
 
-import { getProvider, useAuth, AuthProvider } from './auth/auth';
+import { getProvider } from './auth/auth';
 
 import './scaffold.css';
 
@@ -22,7 +22,7 @@ const App = () => {
     AuthProviderTypes.Auth0
   );
 
-  //const { AuthProvider } = getProvider(currProviderType);
+  const { AuthProvider, useAuth } = getProvider(currProviderType);
 
   return (
     <Provider store={store}>
@@ -31,6 +31,7 @@ const App = () => {
           <AuthProvider>
             <RedwoodApolloProvider useAuth={useAuth}>
               <Routes
+                useAuth={useAuth}
                 setCurrProviderType={setCurrProviderType}
                 currProviderType={currProviderType}
               />

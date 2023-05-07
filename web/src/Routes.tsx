@@ -9,6 +9,7 @@
 
 import { FC, useEffect } from 'react';
 
+import { UseAuth } from '@redwoodjs/auth';
 import { Router, Route, Set } from '@redwoodjs/router';
 
 import BlogLayout from 'src/layouts/BlogLayout';
@@ -28,10 +29,15 @@ import VerificationPage from './pages/VerificationPage/VerificationPage';
 interface Props {
   currProviderType: AuthProviderTypes;
   setCurrProviderType: (type: AuthProviderTypes) => void;
+  useAuth: UseAuth;
 }
 
-const Routes: FC<Props> = ({ currProviderType, setCurrProviderType }) => {
+const Routes: FC<Props> = ({ currProviderType, setCurrProviderType, useAuth }) => {
   const dispatch = useAppDispatch();
+
+  const { isAuthenticated } = useAuth();
+  console.log('IS AUTH PROP', isAuthenticated);
+
   useEffect(() => {
     dispatch(changeProviderType(currProviderType));
   }, [currProviderType, dispatch]);

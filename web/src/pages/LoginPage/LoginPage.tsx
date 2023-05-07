@@ -17,6 +17,7 @@ import { useAuth } from 'src/auth/auth';
 
 const LoginPage = () => {
   const { isAuthenticated, logIn, currentUser } = useAuth();
+  console.log('currentUser', currentUser);
 
   useEffect(() => {
     if (isAuthenticated) {

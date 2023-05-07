@@ -10,6 +10,7 @@ export const schema = gql`
     isVerified: Boolean!
     verificationToken: String
     roles: [String]!
+    iss: String
   }
 
   type Query {
@@ -27,6 +28,7 @@ export const schema = gql`
     isVerified: Boolean!
     verificationToken: String
     roles: [String]!
+    iss: String
   }
 
   input UpdateUserInput {
@@ -39,6 +41,7 @@ export const schema = gql`
     isVerified: Boolean
     verificationToken: String
     roles: [String]!
+    iss: String
   }
 
   type Mutation {

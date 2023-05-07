@@ -6,7 +6,7 @@ import { MetaTags } from '@redwoodjs/web';
 import { useAuth } from 'src/auth/auth';
 import ArticlesCell from 'src/components/ArticlesCell';
 
-import { Roles } from '../../../../shared/types';
+import { AuthProviderTypes, Roles } from '../../../../shared/types';
 
 const HomePage = () => {
   const {
@@ -16,15 +16,24 @@ const HomePage = () => {
     loading,
     hasRole,
     userMetadata,
+    getToken,
   } = useAuth();
 
-  console.log('currentUser', currentUser);
+  console.log('getToken', getToken());
   console.log('userMetadata', userMetadata);
   useEffect(() => {
     console.log('Has role', hasRole(Roles.User));
     if (isAuthenticated && !loading) {
-      fetch('/api/uploadFile').then((res) => {
-        res.json().then((res) => console.log('Res =', res));
+      setTimeout(async () => {
+        const token = await getToken();
+        fetch('/api/uploadFile', {
+          headers: new Headers({
+            Authorization: `Bearer ${token}`,
+            AuthType: AuthProviderTypes.Auth0,
+          }),
+        }).then((res) => {
+          console.log('Res =', res);
+        });
       });
     }
   }, [hasRole, isAuthenticated, loading]);
