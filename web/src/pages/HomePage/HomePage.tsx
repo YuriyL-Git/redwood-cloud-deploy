@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { MetaTags } from '@redwoodjs/web';
 
-import { useAuth } from 'src/auth';
+import { useAuth } from 'src/auth/auth';
 import ArticlesCell from 'src/components/ArticlesCell';
 
 import { Roles } from '../../../../shared/types';

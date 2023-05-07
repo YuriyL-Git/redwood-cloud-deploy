@@ -4,3 +4,8 @@ export enum Roles {
 }
 
 export type AllowedRoles = Roles | Array<Roles>;
+
+export enum AuthProviderTypes {
+  DbAuth = 'DbAuth',
+  Auth0 = 'Auth0',
+}

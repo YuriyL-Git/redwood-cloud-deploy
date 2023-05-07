@@ -13,7 +13,7 @@ import { Link, navigate, routes } from '@redwoodjs/router';
 import { MetaTags } from '@redwoodjs/web';
 import { toast, Toaster } from '@redwoodjs/web/toast';
 
-import { useAuth } from 'src/auth';
+import { useAuth } from 'src/auth/auth';
 
 const LoginPage = () => {
   const { isAuthenticated, logIn, currentUser } = useAuth();
