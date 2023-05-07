@@ -18,7 +18,7 @@ model User {
   resetTokenExpiresAt DateTime?
   isVerified          Boolean   @default(false)
   verificationToken   String?
-  roles               String[]  @default(["USER"])
+  roles               String    @default("USER")
 }
 
 model Post {

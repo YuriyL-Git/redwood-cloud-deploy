@@ -6,13 +6,16 @@ import { useAuth } from 'src/auth';
 import ArticlesCell from 'src/components/ArticlesCell';
 
 const HomePage = () => {
-  const { isAuthenticated, logOut, currentUser, loading } = useAuth();
+  const { isAuthenticated, logOut, currentUser, loading, hasRole } = useAuth();
 
   useEffect(() => {
-    fetch('/api/uploadFile').then((res) => {
-      res.json().then((res) => console.log('Res =', res));
-    });
-  }, [isAuthenticated, loading]);
+    if (isAuthenticated && !loading) {
+      fetch('/api/uploadFile').then((res) => {
+        res.json().then((res) => console.log('Res =', res));
+      });
+      console.log('USER HAS ROLE USER', hasRole('USER'));
+    }
+  }, [hasRole, isAuthenticated, loading]);
 
   return (
     <>
