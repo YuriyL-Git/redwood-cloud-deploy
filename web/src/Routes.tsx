@@ -29,15 +29,12 @@ import VerificationPage from './pages/VerificationPage/VerificationPage';
 interface Props {
   currProviderType: AuthProviderTypes;
   setCurrProviderType: (type: AuthProviderTypes) => void;
-  useAuth: UseAuth;
+  useAuth: () => void;
 }
 
 const Routes: FC<Props> = ({ currProviderType, setCurrProviderType, useAuth }) => {
   const dispatch = useAppDispatch();
-
-  const { isAuthenticated } = useAuth();
-  console.log('IS AUTH PROP', isAuthenticated);
-
+  useAuth();
   useEffect(() => {
     dispatch(changeProviderType(currProviderType));
   }, [currProviderType, dispatch]);

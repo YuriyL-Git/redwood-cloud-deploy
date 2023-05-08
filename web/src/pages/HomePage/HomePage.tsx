@@ -1,3 +1,5 @@
+import * as process from 'process';
+
 import { useEffect } from 'react';
 
 import { navigate, routes } from '@redwoodjs/router';
@@ -9,18 +11,9 @@ import ArticlesCell from 'src/components/ArticlesCell';
 import { AuthProviderTypes, Roles } from '../../../../shared/types';
 
 const HomePage = () => {
-  const {
-    isAuthenticated,
-    logOut,
-    currentUser,
-    loading,
-    hasRole,
-    userMetadata,
-    getToken,
-  } = useAuth();
+  const { isAuthenticated, logOut, currentUser, loading, hasRole, getToken } =
+    useAuth();
 
-  console.log('getToken', getToken());
-  console.log('userMetadata', userMetadata);
   useEffect(() => {
     console.log('Has role', hasRole(Roles.User));
     if (isAuthenticated && !loading) {
@@ -51,17 +44,7 @@ const HomePage = () => {
           ? `User: ${currentUser.email}`
           : 'User is not logged in'}
       </div>
-      <button
-        onClick={() =>
-          logOut({
-            onRedirect: async () => {
-              navigate(routes.home());
-            },
-          })
-        }
-      >
-        Logout
-      </button>
+      <button onClick={() => logOut()}>Logout</button>
     </>
   );
 };

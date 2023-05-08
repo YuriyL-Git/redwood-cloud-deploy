@@ -1,3 +1,5 @@
+import { LogoutOptions } from '@auth0/auth0-spa-js';
+
 import {
   createDbAuthClient,
   createAuth as createDbAuth,
@@ -33,14 +35,25 @@ export const getProvider = (providerType: AuthProviderTypes) => {
 export const useAuth = () => {
   const { currProviderType } = useTypedSelector((state) => state.auth);
   const AuthProvider = getProvider(currProviderType);
-  const { hasRole, ...authProps } = AuthProvider.useAuth();
+  const { hasRole, logOut, ...authProps } = AuthProvider.useAuth();
 
   const hasRoleWithType = (roles: AllowedRoles) => {
     return hasRole(roles);
+  };
+  console.log('AUTH PROVIDER');
+  const logOutPatched = async () => {
+    const options = {
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    };
+
+    await logOut(options);
   };
 
   return {
     ...authProps,
     hasRole: hasRoleWithType,
+    logOut: logOutPatched,
   };
 };
