@@ -1,17 +1,14 @@
-import * as process from 'process';
-
 import { useEffect } from 'react';
 
-import { navigate, routes } from '@redwoodjs/router';
 import { MetaTags } from '@redwoodjs/web';
 
-import { useAuth } from 'src/auth/auth';
+import { useAuth } from 'src/auth/useAuth';
 import ArticlesCell from 'src/components/ArticlesCell';
 
-import { AuthProviderTypes, Roles } from '../../../../shared/types';
+import { AuthTypes, Roles } from '../../../../shared/types';
 
 const HomePage = () => {
-  const { isAuthenticated, logOut, currentUser, loading, hasRole, getToken } =
+  const { isAuthenticated, hasRole, loading, getToken, logOut, currentUser } =
     useAuth();
 
   useEffect(() => {
@@ -22,7 +19,7 @@ const HomePage = () => {
         fetch('/api/uploadFile', {
           headers: new Headers({
             Authorization: `Bearer ${token}`,
-            AuthType: AuthProviderTypes.Auth0,
+            AuthType: AuthTypes.Auth0,
           }),
         }).then((res) => {
           console.log('Res =', res);

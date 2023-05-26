@@ -1,23 +1,27 @@
-import { useRef } from 'react';
-import { useEffect } from 'react';
+import { FC, useEffect, useRef } from 'react';
 
 import {
+  FieldError,
   Form,
   Label,
-  TextField,
   PasswordField,
   Submit,
-  FieldError,
+  TextField,
 } from '@redwoodjs/forms';
 import { Link, navigate, routes } from '@redwoodjs/router';
 import { MetaTags } from '@redwoodjs/web';
 import { toast, Toaster } from '@redwoodjs/web/toast';
 
-import { useAuth } from 'src/auth/auth';
+import { useAuthFuncs } from 'src/auth/useAuth';
 
-const LoginPage = () => {
-  const { isAuthenticated, logIn, currentUser } = useAuth();
-  console.log('currentUser', currentUser);
+import { AuthTypes } from '../../../../shared/types';
+
+const LoginPage: FC = () => {
+  const { isAuthenticated, logIn, currentUser } = useAuthFuncs(
+    AuthTypes.DbAuth
+  );
+
+  const { logIn: auth0Login } = useAuthFuncs(AuthTypes.Auth0);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -47,7 +51,7 @@ const LoginPage = () => {
   };
 
   const loginWithOauth0 = () => {
-    logIn();
+    auth0Login();
   };
 
   return (

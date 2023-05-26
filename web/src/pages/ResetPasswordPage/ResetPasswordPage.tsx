@@ -11,11 +11,13 @@ import { navigate, routes } from '@redwoodjs/router';
 import { MetaTags } from '@redwoodjs/web';
 import { toast, Toaster } from '@redwoodjs/web/toast';
 
-import { useAuth } from 'src/auth/auth';
+import { useTypedSelector } from 'src/store';
 
 const ResetPasswordPage = ({ resetToken }: { resetToken: string }) => {
+  const { authProps } = useTypedSelector((state) => state.auth);
+
   const { isAuthenticated, reauthenticate, validateResetToken, resetPassword } =
-    useAuth();
+    authProps;
   const [enabled, setEnabled] = useState(true);
 
   useEffect(() => {

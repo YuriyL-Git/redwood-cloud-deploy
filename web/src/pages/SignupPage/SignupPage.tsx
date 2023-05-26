@@ -1,22 +1,23 @@
-import { useRef } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import {
+  FieldError,
   Form,
   Label,
-  TextField,
   PasswordField,
-  FieldError,
   Submit,
+  TextField,
 } from '@redwoodjs/forms';
 import { Link, navigate, routes } from '@redwoodjs/router';
 import { MetaTags } from '@redwoodjs/web';
 import { toast, Toaster } from '@redwoodjs/web/toast';
 
-import { useAuth } from 'src/auth/auth';
+import { useAuthFuncs } from 'src/auth/useAuth';
+
+import { AuthTypes } from '../../../../shared/types';
 
 const SignupPage = () => {
-  const { isAuthenticated, signUp } = useAuth();
+  const { isAuthenticated, signUp } = useAuthFuncs(AuthTypes.DbAuth);
 
   useEffect(() => {
     if (isAuthenticated) {

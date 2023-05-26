@@ -7,38 +7,22 @@
 // 'src/pages/HomePage/HomePage.js'         -> HomePage
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
-import { UseAuth } from '@redwoodjs/auth';
 import { Router, Route, Set } from '@redwoodjs/router';
 
+import { useAuth } from 'src/auth/useAuth';
 import BlogLayout from 'src/layouts/BlogLayout';
 import ScaffoldLayout from 'src/layouts/ScaffoldLayout';
-import { useAppDispatch } from 'src/store';
-import { changeProviderType } from 'src/store/slices/auth';
 
-import { AuthProviderTypes } from '../../shared/types';
-
-import { useAuth } from './auth/auth';
 import ForgotPasswordPage from './pages/ForgotPasswordPage/ForgotPasswordPage';
+import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import ResetPasswordPage from './pages/ResetPasswordPage/ResetPasswordPage';
 import SignupPage from './pages/SignupPage/SignupPage';
 import VerificationPage from './pages/VerificationPage/VerificationPage';
 
-interface Props {
-  currProviderType: AuthProviderTypes;
-  setCurrProviderType: (type: AuthProviderTypes) => void;
-  useAuth: () => void;
-}
-
-const Routes: FC<Props> = ({ currProviderType, setCurrProviderType, useAuth }) => {
-  const dispatch = useAppDispatch();
-  useAuth();
-  useEffect(() => {
-    dispatch(changeProviderType(currProviderType));
-  }, [currProviderType, dispatch]);
-
+const Routes: FC = () => {
   return (
     <Router useAuth={useAuth}>
       <Route path="/verification/{token}" page={VerificationPage} name="verification" />
